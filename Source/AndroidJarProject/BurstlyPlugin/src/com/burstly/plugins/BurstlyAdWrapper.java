@@ -7,6 +7,7 @@ import com.burstly.lib.ui.BurstlyView;
 import com.unity3d.player.UnityPlayer;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
@@ -111,7 +112,24 @@ public class BurstlyAdWrapper {
 	public static void onResumeActivity(Activity aActivity) 	{	Burstly.onResumeActivity(aActivity);	}
 	public static void onDestroyActivity(Activity aActivity) 	{	Burstly.onDestroyActivity(aActivity);	}
     
-    
+    /*
+     * Helper method for error checking and messaging. These are here to prevent null pointer exceptions and crashes if the
+     * plugin JNI methods are called without the plugin being initialised. 
+     */
+	
+	private static boolean isPluginInitialised() {
+		if (mActivity == null) {
+			Log.e("BurstlyAds", "FATAL ERROR: The plugin has not been initialised with your main activity. BurstlyAdWrapper.init(Activity aActivity) MUST be called before any placements can be created.");
+			return false;
+		}
+		if (mBaseLayout == null) {
+			Log.e("BurstlyAds", "FATAL ERROR: The view layout for the plugin has not been created. BurstlyAdWrapper.createViewLayout() MUST be called before any placements can be created.");
+			return false;
+		}
+		return true;
+	}
+	
+	
 	
 	/*************************************************************************************************/
 	/* NATIVE JNI JAVA METHODS - MAY BE CALLED WITHIN JAVA ENVIRONMENT OR IN NATIVE CODE THROUGH JNI */
@@ -134,6 +152,7 @@ public class BurstlyAdWrapper {
 	 * @param	height			The height of the banner ad.
 	 */
 	public static void createBannerPlacement(final String sPlacementName, final String sAppId, final String sZoneId, final float originX, final float originY, final float width, final float height) {
+		if (!isPluginInitialised()) return;
 		// We cannot have multiple placements with the same placement name
 		if (mBurstlyViewHashMap.containsKey(sPlacementName)) return;
 		
@@ -178,6 +197,7 @@ public class BurstlyAdWrapper {
 	 * @param	sZoneId			The zone ID from which the creatives should be fetched.
 	 */
 	public static void createInterstitialPlacement(final String sPlacementName, final String sAppId, final String sZoneId) {
+		if (!isPluginInitialised()) return;
 		// We cannot have multiple placements with the same placement name
 		if (mBurstlyViewHashMap.containsKey(sPlacementName)) return;
 		
@@ -210,6 +230,7 @@ public class BurstlyAdWrapper {
 	 * @param	sPlacementName	The placement name for the ad placement that should be destroyed.
 	 */
 	public static void destroyAdPlacement(final String sPlacementName) {
+		if (!isPluginInitialised()) return;
 		final BurstlyView burstlyView = mBurstlyViewHashMap.get(sPlacementName);
 		if (burstlyView == null) return;
 		
@@ -235,6 +256,7 @@ public class BurstlyAdWrapper {
 	 * @param	sPlacementName	The placement name for the ad placement that should be shown.
 	 */
 	public static void showAd(final String sPlacementName) {
+		if (!isPluginInitialised()) return;
 		final BurstlyView burstlyView = mBurstlyViewHashMap.get(sPlacementName);
 		if (burstlyView == null) return;
 		
@@ -257,6 +279,7 @@ public class BurstlyAdWrapper {
 	 * @param	sPlacementName	The placement name for the interstitial that should be precached.
 	 */
 	public static void cacheAd(final String sPlacementName) {
+		if (!isPluginInitialised()) return;
 		final BurstlyView burstlyView = mBurstlyViewHashMap.get(sPlacementName);
 		if (burstlyView == null) return;
 		
@@ -278,6 +301,7 @@ public class BurstlyAdWrapper {
 	 * @param	sPlacementName	The placement name for the banner that should be paused.
 	 */
 	public static void pauseBanner(final String sPlacementName) {
+		if (!isPluginInitialised()) return;
 		final BurstlyView burstlyView = mBurstlyViewHashMap.get(sPlacementName);
 		if (burstlyView == null) return;
 		
@@ -297,6 +321,7 @@ public class BurstlyAdWrapper {
 	 * @param	sPlacementName	The placement name for the banner that should be unpaused.
 	 */
 	public static void unpauseBanner(final String sPlacementName) {
+		if (!isPluginInitialised()) return;
 		final BurstlyView burstlyView = mBurstlyViewHashMap.get(sPlacementName);
 		if (burstlyView == null) return;
 		
@@ -316,6 +341,7 @@ public class BurstlyAdWrapper {
 	 * @param	sPlacementName	The placement name for the banner that should be added to the view hierarchy
 	 */
 	public static void addBannerToView(final String sPlacementName) {
+		if (!isPluginInitialised()) return;
 		final BurstlyView burstlyView = mBurstlyViewHashMap.get(sPlacementName);
 		if (burstlyView == null) return;
 		
@@ -338,6 +364,7 @@ public class BurstlyAdWrapper {
 	 * @param	sPlacementName	The placement name for the banner that should be removed from the view hierarchy
 	 */
 	public static void removeBannerFromView(final String sPlacementName) {
+		if (!isPluginInitialised()) return;
 		final BurstlyView burstlyView = mBurstlyViewHashMap.get(sPlacementName);
 		if (burstlyView == null)  return;
 		
@@ -359,6 +386,8 @@ public class BurstlyAdWrapper {
 	 * @param	sPlacementName	The placement name for the interstitial whose cache status is being queried.
 	 */
 	public static boolean isAdCached(String sPlacementName) {
+		if (!isPluginInitialised()) return false;
+		
 		BurstlyView burstlyView = mBurstlyViewHashMap.get(sPlacementName);
 		if (burstlyView == null) return false;
 		
@@ -373,6 +402,7 @@ public class BurstlyAdWrapper {
 	 * 							from the origin (the top left of the screen).
 	 */
 	public static void setBannerOrigin(final String sPlacementName, final float originX, final float originY) {
+		if (!isPluginInitialised()) return;
 		final BurstlyView burstlyView = mBurstlyViewHashMap.get(sPlacementName);
 		if (burstlyView == null) return;
 		
@@ -389,9 +419,14 @@ public class BurstlyAdWrapper {
 		});
 	}
 	
-	
-	
+	/*
+	 * Sets the refresh rate for the banner in seconds. Must be at least 10 seconds otherwise the system will default to 10 seconds.
+	 * 
+	 * @param	sPlacementName	The placement name for the banner whose refresh rate is being set.
+	 * @param	refreshRate		The refresh rate being set in seconds (must be 10 seconds or more).
+	 */
 	public static void setBannerRefreshRate(final String sPlacementName, final float refreshRate) {
+		if (!isPluginInitialised()) return;
 		final BurstlyView burstlyView = mBurstlyViewHashMap.get(sPlacementName);
 		if (burstlyView == null) return;
 		
@@ -405,7 +440,16 @@ public class BurstlyAdWrapper {
 		});
 	}
 	
+	/*
+	 * Sets the custom publisher targetting data key-value pairs that are to be sent back to the ad server. This should represent a 
+	 * set of comma-delimited key-value pairs that can consist of integer, float or string (must be single-quote delimited) values, 
+	 * e.g. "gender='m',age=22".
+	 * 
+	 * @param	sPlacementName			The placement name for the placement whose targetting parameters are being set.
+	 * @param	sTargettingParameters	The targetting parameter string, e.g "gender='m',age=22"
+	 */
 	public static void setTargettingParameters(final String sPlacementName, final String sTargettingParameters) {
+		if (!isPluginInitialised()) return;
 		final BurstlyView burstlyView = mBurstlyViewHashMap.get(sPlacementName);
 		if (burstlyView == null) return;
 		
@@ -419,7 +463,17 @@ public class BurstlyAdWrapper {
 		});
 	}
 	
+	/*
+	 * Sets the creative-specific ad parameters that are to be sent back to the ad server for cutomising landing page URLs. This 
+	 * should represent a set of comma-delimited key-value pairs that can consist of integer, float or string (must be single-quote 
+	 * delimited) values. e.g. "gender='m',age=22".
+	 * 
+	 * @param	sPlacementName	The placement name for the placement whose ad parameters are being set.
+	 * @param	sAdParameters	The ad parameter string, e.g "gender='m',age=22"
+	 */
+	
 	public static void setAdParameters(final String sPlacementName, final String sAdParameters) {
+		if (!isPluginInitialised()) return;
 		final BurstlyView burstlyView = mBurstlyViewHashMap.get(sPlacementName);
 		if (burstlyView == null) return;
 		
@@ -433,7 +487,6 @@ public class BurstlyAdWrapper {
 		});
 	}
 	
-	
 	/*
 	 * Sets the name of the callback GameObject to use UnitySendMessage with. Calls the BurstlyCallback method of the GameObject with a string
 	 * parameter representing the placementName|callbackEvent (pipe-delimited).
@@ -442,6 +495,8 @@ public class BurstlyAdWrapper {
 	 * 										parameter representing the placementName|callbackEvent (pipe-delimited).
 	 */
 	public static void setCallbackGameObjectName(String sCallbackGameObjectName) {
+		if (!isPluginInitialised()) return;
+		
 		mCallbackGameObjectName = sCallbackGameObjectName; 
 	}
 	

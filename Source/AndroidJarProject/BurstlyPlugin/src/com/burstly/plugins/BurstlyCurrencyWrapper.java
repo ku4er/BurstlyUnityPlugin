@@ -1,6 +1,7 @@
 package com.burstly.plugins;
 
 import android.app.Activity;
+import android.util.Log;
 
 import com.burstly.lib.currency.CurrencyManager;
 import com.unity3d.player.UnityPlayer;
@@ -25,11 +26,31 @@ public class BurstlyCurrencyWrapper {
 		mActivity = aActivity;
 	}
 	
+    /*
+     * Helper method for error checking and messaging. These are here to prevent null pointer exceptions and crashes if the
+     * plugin JNI methods are called without the plugin being initialised. 
+     */
+	
+	private static boolean isPluginInitialised() {
+		if (mActivity == null) {
+			Log.e("BurstlyCurrency", "FATAL ERROR: The plugin has not been initialised with your main activity. BurstlyCurrencyWrapper.init(Activity aActivity) MUST be called before any currency-related methods are called.");
+			return false;
+		}
+		if (mCurrencyManager == null) {
+			Log.e("BurstlyCurrency", "FATAL ERROR: The plugin has not been initialised with your publisherId. BurstlyCurrency.initialize(string publisherId, string userId) MUST be called before any other BurstlyCurrency methods are called.");
+			return false;
+		}
+		return true;
+	}
+	
 	
 	/*
-		Initializes the BurstlyCurrency plugin. This method *must* be called before any other BurstlyCurrency method is called.
-		You must pass in publisherId. userId may be passed in as an empty string ("") if you would like to use the default
-		userId handled by BurstlyCurrency. DO NOT pass in NULL if there is no userId.
+	 * Initializes the BurstlyCurrency plugin. This method *must* be called before any other BurstlyCurrency method is called. You must pass in 
+	 * publisherId. userId may be passed in as an empty string ("") if you would like to use the default userId handled by BurstlyCurrency. DO NOT 
+	 * pass in NULL if there is no userId.
+	 * 
+	 * @param	publisherId		the Burstly publisher ID for the app.
+	 * @param	userId			a unique identifier for the user in your app. if left blank it will use Burstly's default user ID.
 	 */
 	public static void initialize(final String publisherId, final String userId) {
 		if (mCurrencyManager != null) return;
@@ -53,22 +74,28 @@ public class BurstlyCurrencyWrapper {
 		});
 	}
 	
+	
 	/*
-		Returns the currency balance for the currency name passed in the parameters held in the local cache. This is updated from the
-		server upon calling updateBalancesFromServer().
-	 */	
+	 * Returns the currency balance for the currency name passed in the parameters held in the local cache. This is updated from the server upon 
+	 * calling updateBalancesFromServer().
+	 * 
+	 * @param	currency	the machine-readable currency name for the currency in question
+	 */
 	public static int getBalance(String currency) {
-		if (mCurrencyManager == null) return 0;
+		if (!isPluginInitialised()) return 0;
 		
 		return mCurrencyManager.getBalance(currency);
 	}
 	
 	/*
-		Increases the currency balance for the passed currency by the passed amount. This updates the local currency cache and also
-		updates the Burstly server balance as well.
-	 */	
+	 * Increases the currency balance for the passed currency by the passed amount. This updates the local currency cache and also updates the 
+	 * Burstly server balance as well.
+	 * 
+	 * @param	currency	the machine-readable currency name for the currency in question
+	 * @param	amount		the amount of currency to deduct from the user's balance
+	 */
 	public static void increaseBalance(final String currency, final int amount) {
-		if (mCurrencyManager == null) return;
+		if (!isPluginInitialised()) return;
 		
 		mActivity.runOnUiThread(new Runnable() {
 
@@ -82,11 +109,14 @@ public class BurstlyCurrencyWrapper {
 	}
 	
 	/*
-		Decreases the currency balance for the passed currency by the passed amount. This updates the local currency cache and also
-		updates the Burstly server balance as well.
+	 * Decreases the currency balance for the passed currency by the passed amount. This updates the local currency cache and also updates the 
+	 * Burstly server balance as well.
+	 * 
+	 * @param	currency	the machine-readable currency name for the currency in question
+	 * @param	amount		the amount of currency to deduct from the user's balance
 	 */
 	public static void decreaseBalance(final String currency, final int amount) {
-		if (mCurrencyManager == null) return;
+		if (!isPluginInitialised()) return;
 
 		mActivity.runOnUiThread(new Runnable() {
 
@@ -99,12 +129,12 @@ public class BurstlyCurrencyWrapper {
 		});
 	}
 	
-    /*
-    	Initiates a request to update the currency balances for all currencies from the Burstly server. You must register a 
-    	callback using the methods below to receive notifications that this method succeeded / failed.
+	/*
+	 * Initiates a request to update the currency balances for all currencies from the Burstly server. You must register a callback using the 
+	 * methods below to receive notifications that this method succeeded / failed.
 	 */
 	public static void updateBalancesFromServer() {
-		if (mCurrencyManager == null) return;
+		if (!isPluginInitialised()) return;
 		
 		mActivity.runOnUiThread(new Runnable() {
 
@@ -128,6 +158,8 @@ public class BurstlyCurrencyWrapper {
 	 * 										parameter representing the placementName|callbackEvent (pipe-delimited).
 	 */
 	public static void setCallbackGameObjectName(String sCallbackGameObjectName) {
+		if (!isPluginInitialised()) return;
+		
 		mCallbackGameObjectName = sCallbackGameObjectName; 
 	}
 	
