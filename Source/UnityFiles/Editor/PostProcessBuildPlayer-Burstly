@@ -285,7 +285,7 @@ def postProcessIOS():
 	librariesDirPath = xcodeprojDirPath + "/Libraries";
 	burstlySdkDirPath = sys.argv[0].rpartition("/Editor/PostProcessBuildPlayer-Burstly")[0] + "/Plugins/iOS/BurstlySDK";
 	print("Copying Burstly SDK assets/ to " + librariesDirPath);
-	executeCommand("cp " + burstlySdkDirPath + "/* " + librariesDirPath);
+	executeCommand("cp \"" + burstlySdkDirPath + "/\"* \"" + librariesDirPath + "\"");
 
 
 
