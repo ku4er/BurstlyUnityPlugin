@@ -1,9 +1,8 @@
 //
-//  BurstlyCurrency.h
-//  Burstly
+// BurstlyCurrency.h
+// Burstly SDK
 //
-//  Created by Nick Remizevich on 8/15/11.
-//  Copyright (c) 2011 Burstly Inc. All rights reserved.
+// Copyright 2013 Burstly Inc. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

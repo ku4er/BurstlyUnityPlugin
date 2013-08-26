@@ -89,9 +89,9 @@ static BurstlyAdWrapperBridge *_sharedInstance;
         return;
     }
     
-    BurstlyBannerAdView *banner = [[BurstlyBannerAdView alloc] initWithAppId:appId zoneId:zoneId frame:bannerFrame anchor:kBurstlyAnchorTop rootViewController:_viewControllerForModalPresentation delegate:self];
+    BurstlyBanner *banner = [[BurstlyBanner alloc] initWithAppId:appId zoneId:zoneId frame:bannerFrame anchor:BurstlyAnchorTop rootViewController:_viewControllerForModalPresentation delegate:self];
     banner.adRequest = [BurstlyAdRequest request];
-	banner.adRequest.targettingParameters = @"";
+	banner.adRequest.targetingParameters = @"";
 	banner.adRequest.adParameters = @"";
     [_placementDictionary setObject:banner forKey:placement];
 }
@@ -105,7 +105,7 @@ static BurstlyAdWrapperBridge *_sharedInstance;
     
     BurstlyInterstitial *interstitial = [[BurstlyInterstitial alloc] initAppId:appId zoneId:zoneId delegate:self];
     interstitial.adRequest = [BurstlyAdRequest request];
-	interstitial.adRequest.targettingParameters = @"";
+	interstitial.adRequest.targetingParameters = @"";
 	interstitial.adRequest.adParameters = @"";
     [_placementDictionary setObject:interstitial forKey:placement];
 }
@@ -113,9 +113,9 @@ static BurstlyAdWrapperBridge *_sharedInstance;
 - (void)destroyBurstlyAdWithPlacement:(NSString *)placement {
     id adPlacement = [_placementDictionary objectForKey:placement];
     if (adPlacement) {
-        if ([adPlacement isKindOfClass:[BurstlyBannerAdView class]]) {
-            [(BurstlyBannerAdView *)adPlacement removeFromSuperview];
-            ((BurstlyBannerAdView *)adPlacement).delegate = nil;
+        if ([adPlacement isKindOfClass:[BurstlyBanner class]]) {
+            [(BurstlyBanner *)adPlacement removeFromSuperview];
+            ((BurstlyBanner *)adPlacement).delegate = nil;
         }
         [adPlacement release];
         adPlacement = nil;
@@ -145,66 +145,66 @@ static BurstlyAdWrapperBridge *_sharedInstance;
 
 - (void)pauseBannerForPlacement:(NSString *)placement{
     id view = [_placementDictionary objectForKey:placement];
-    if (view && [view isKindOfClass:[BurstlyBannerAdView class]]) {
-        ((BurstlyBannerAdView *)view).adPaused = YES;
+    if (view && [view isKindOfClass:[BurstlyBanner class]]) {
+        ((BurstlyBanner *)view).adPaused = YES;
     } else {
-        NSLog(@"Incorrect placement type for value. Expected type: BurstlyBannerAdView");
+        NSLog(@"Incorrect placement type for value. Expected type: BurstlyBanner");
     }
 }
 
 - (void)unpauseBannerForPlacement:(NSString *)placement{
     id view = [_placementDictionary objectForKey:placement];
-    if (view && [view isKindOfClass:[BurstlyBannerAdView class]]) {
-        ((BurstlyBannerAdView *)view).adPaused = NO;
+    if (view && [view isKindOfClass:[BurstlyBanner class]]) {
+        ((BurstlyBanner *)view).adPaused = NO;
     } else {
-        NSLog(@"Incorrect placement type for value. Expected type: BurstlyBannerAdView");
+        NSLog(@"Incorrect placement type for value. Expected type: BurstlyBanner");
     }
 }
 
 - (void)addBannerToViewForPlacement:(NSString *)placement{
     id view = [_placementDictionary objectForKey:placement];
-    if (view && [view isKindOfClass:[BurstlyBannerAdView class]]) {
+    if (view && [view isKindOfClass:[BurstlyBanner class]]) {
         [_rootViewController.view addSubview:view];
     } else {
-        NSLog(@"Incorrect placement type for value. Expected type: BurstlyBannerAdView");
+        NSLog(@"Incorrect placement type for value. Expected type: BurstlyBanner");
     }
 }
 
 - (void)removeBannerFromViewForPlacement:(NSString *)placement{
     id view = [_placementDictionary objectForKey:placement];
-    if (view && [view isKindOfClass:[BurstlyBannerAdView class]]) {
-        [(BurstlyBannerAdView *)view removeFromSuperview];
+    if (view && [view isKindOfClass:[BurstlyBanner class]]) {
+        [(BurstlyBanner *)view removeFromSuperview];
     } else {
-        NSLog(@"Incorrect placement type for value. Expected type: BurstlyBannerAdView");
+        NSLog(@"Incorrect placement type for value. Expected type: BurstlyBanner");
     }
 }
 
 - (BOOL)isAdCachedForPlacement:(NSString*)placement {
     id adPlacement = [_placementDictionary objectForKey:placement];
     if (adPlacement && [adPlacement isKindOfClass:[BurstlyInterstitial class]]) {
-        return ((BurstlyInterstitial *)adPlacement).state == BurstlyInterstitialStatePreCached;
+        return ((BurstlyInterstitial *)adPlacement).state == BurstlyInterstitialStateCached;
     }
     return NO;
 }
 
 - (void)setBannerOrigin:(CGPoint)origin forPlacement:(NSString *)placement{
     id view = [_placementDictionary objectForKey:placement];
-    if (view && [view isKindOfClass:[BurstlyBannerAdView class]]) {
+    if (view && [view isKindOfClass:[BurstlyBanner class]]) {
         CGRect frame = [view frame];
         frame.origin.x = origin.x;
         frame.origin.y = origin.y;
-        ((BurstlyBannerAdView *)view).frame = frame;
+        ((BurstlyBanner *)view).frame = frame;
     } else {
-        NSLog(@"Incorrect placement type for value. Expected type: BurstlyBannerAdView");
+        NSLog(@"Incorrect placement type for value. Expected type: BurstlyBanner");
     }
 }
 
 - (void)setBannerRefreshRate:(CGFloat)refreshRate forPlacement:(NSString *)placement {
     id view = [_placementDictionary objectForKey:placement];
-    if (view && [view isKindOfClass:[BurstlyBannerAdView class]]) {
-        ((BurstlyBannerAdView *)view).defaultRefreshInterval = refreshRate;
+    if (view && [view isKindOfClass:[BurstlyBanner class]]) {
+        ((BurstlyBanner *)view).defaultRefreshInterval = refreshRate;
     } else {
-        NSLog(@"Incorrect placement type for value. Expected type: BurstlyBannerAdView");
+        NSLog(@"Incorrect placement type for value. Expected type: BurstlyBanner");
     }
 }
 
@@ -212,9 +212,9 @@ static BurstlyAdWrapperBridge *_sharedInstance;
 	id adPlacement = [_placementDictionary objectForKey:placement];
     if (adPlacement) {
         if ([adPlacement isKindOfClass:[BurstlyInterstitial class]])
-            ((BurstlyInterstitial *)adPlacement).adRequest.targettingParameters = targettingParameters;
-        else if ([adPlacement isKindOfClass:[BurstlyBannerAdView class]])
-            ((BurstlyBannerAdView *)adPlacement).adRequest.targettingParameters = targettingParameters;
+            ((BurstlyInterstitial *)adPlacement).adRequest.targetingParameters = targettingParameters;
+        else if ([adPlacement isKindOfClass:[BurstlyBanner class]])
+            ((BurstlyBanner *)adPlacement).adRequest.targetingParameters = targettingParameters;
     } else {
         NSLog(@"Placement does not exist.");
     }
@@ -225,8 +225,8 @@ static BurstlyAdWrapperBridge *_sharedInstance;
     if (adPlacement) {
         if ([adPlacement isKindOfClass:[BurstlyInterstitial class]])
             ((BurstlyInterstitial *)adPlacement).adRequest.adParameters = adParameters;
-        else if ([adPlacement isKindOfClass:[BurstlyBannerAdView class]])
-            ((BurstlyBannerAdView *)adPlacement).adRequest.adParameters = adParameters;
+        else if ([adPlacement isKindOfClass:[BurstlyBanner class]])
+            ((BurstlyBanner *)adPlacement).adRequest.adParameters = adParameters;
     } else {
         NSLog(@"Placement does not exist.");
     }	
@@ -234,49 +234,49 @@ static BurstlyAdWrapperBridge *_sharedInstance;
 
 #pragma mark - BurstlyBannerViewDelegate Protocol
 
-- (void)burstlyBannerAdView:(BurstlyBannerAdView *)view willTakeOverFullScreen:(NSString*)adNetwork {
+- (void)BurstlyBanner:(BurstlyBanner *)view willTakeOverFullScreen:(NSString*)adNetwork {
     NSArray *validKeys = [_placementDictionary allKeysForObject:view];
     if (validKeys && [validKeys count] > 0) {
         BurstlyAdWrapper_callback([(NSString *)[validKeys objectAtIndex:0] UTF8String], BurstlyEventTakeoverFullscreen);
     }
 }
 
-- (void)burstlyBannerAdView:(BurstlyBannerAdView *)view willDismissFullScreen:(NSString*)adNetwork {
+- (void)BurstlyBanner:(BurstlyBanner *)view willDismissFullScreen:(NSString*)adNetwork {
     NSArray *validKeys = [_placementDictionary allKeysForObject:view];
     if (validKeys && [validKeys count] > 0) {
         BurstlyAdWrapper_callback([(NSString *)[validKeys objectAtIndex:0] UTF8String], BurstlyEventDismissFullscreen);
     }
 }
 
-- (void)burstlyBannerAdView:(BurstlyBannerAdView *)view didHide:(NSString*)lastViewedNetwork {
+- (void)BurstlyBanner:(BurstlyBanner *)view didHide:(NSString*)lastViewedNetwork {
     NSArray *validKeys = [_placementDictionary allKeysForObject:view];
     if (validKeys && [validKeys count] > 0) {
         BurstlyAdWrapper_callback([(NSString *)[validKeys objectAtIndex:0] UTF8String], BurstlyEventHidden);
     }
 }
 
-- (void)burstlyBannerAdView:(BurstlyBannerAdView *)view didShow:(NSString*)adNetwork {
+- (void)BurstlyBanner:(BurstlyBanner *)view didShow:(NSString*)adNetwork {
     NSArray *validKeys = [_placementDictionary allKeysForObject:view];
     if (validKeys && [validKeys count] > 0) {
         BurstlyAdWrapper_callback([(NSString *)[validKeys objectAtIndex:0] UTF8String], BurstlyEventShown);
     }
 }
 
-- (void)burstlyBannerAdView:(BurstlyBannerAdView *)view didCache:(NSString*)adNetwork {
+- (void)BurstlyBanner:(BurstlyBanner *)view didCache:(NSString*)adNetwork {
     NSArray *validKeys = [_placementDictionary allKeysForObject:view];
     if (validKeys && [validKeys count] > 0) {
         BurstlyAdWrapper_callback([(NSString *)[validKeys objectAtIndex:0] UTF8String], BurstlyEventCached);
     }
 }
 
-- (void)burstlyBannerAdView:(BurstlyBannerAdView *)view wasClicked:(NSString*)adNetwork {
+- (void)BurstlyBanner:(BurstlyBanner *)view wasClicked:(NSString*)adNetwork {
     NSArray *validKeys = [_placementDictionary allKeysForObject:view];
     if (validKeys && [validKeys count] > 0) {
         BurstlyAdWrapper_callback([(NSString *)[validKeys objectAtIndex:0] UTF8String], BurstlyEventClicked);
     }
 }
 
-- (void) burstlyBannerAdView:(BurstlyBannerAdView *)view didFailWithError:(NSError*)error {
+- (void) BurstlyBanner:(BurstlyBanner *)view didFailWithError:(NSError*)error {
     NSArray *validKeys = [_placementDictionary allKeysForObject:view];
     if (validKeys && [validKeys count] > 0) {
         BurstlyAdWrapper_callback([(NSString *)[validKeys objectAtIndex:0] UTF8String], BurstlyEventFailed);

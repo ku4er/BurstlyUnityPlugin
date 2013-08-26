@@ -1,9 +1,8 @@
 //
-//  BurstlyCurrencyUpdateInfo.h
-//  Burstly
+// BurstlyCurrencyUpdateInfo.h
+// Burstly SDK
 //
-//  Created by Fedor Kudrys on 01.11.12.
-//  Copyright (c) 2012 Burstly Inc. All rights reserved.
+// Copyright 2013 Burstly Inc. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

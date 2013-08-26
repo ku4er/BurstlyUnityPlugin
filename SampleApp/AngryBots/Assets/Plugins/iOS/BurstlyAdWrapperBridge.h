@@ -7,13 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "BurstlyBannerAdView.h"
+#import "BurstlyBanner.h"
 #import "BurstlyInterstitial.h"
 #import "BurstlyAdViewViewController.h"
 
 #import "BurstlyAdWrapper.h"
 
-@interface BurstlyAdWrapperBridge : NSObject<BurstlyBannerViewDelegate, BurstlyInterstitialDelegate> {
+@interface BurstlyAdWrapperBridge : NSObject<BurstlyBannerDelegate, BurstlyInterstitialDelegate> {
     UIViewController *_rootViewController;
     UIViewController *_viewControllerForModalPresentation;
     NSMutableDictionary *_placementDictionary;

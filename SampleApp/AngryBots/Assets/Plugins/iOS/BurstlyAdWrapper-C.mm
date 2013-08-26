@@ -54,8 +54,8 @@ extern "C" {
 		[[BurstlyAdWrapperBridge sharedInstance] setBannerRefreshRate:refreshRate forPlacement:CreateNSString(placementName)];
 	}
 	
-	void BurstlyAdWrapper_setTargettingParameters(const char *placementName, const char *targettingParameters) {
-		[[BurstlyAdWrapperBridge sharedInstance] setTargettingParameters:CreateNSString(targettingParameters) forPlacement:CreateNSString(placementName)];
+	void BurstlyAdWrapper_setTargettingParameters(const char *placementName, const char *targetingParameters) {
+		[[BurstlyAdWrapperBridge sharedInstance] setTargettingParameters:CreateNSString(targetingParameters) forPlacement:CreateNSString(placementName)];
 	}
 	
 	void BurstlyAdWrapper_setAdParameters(const char *placementName, const char *adParameters) {
