@@ -193,9 +193,8 @@ public static class BurstlyAds {
 		x-origin, y-origin, width and height. Placement names must be unique across banner and interstitial ads.
 	 */
 	public static void createBannerPlacement(string placementName, string appId, string zoneId, float originX, float originY, float width, float height) {
-		
 		#if UNITY_IPHONE || UNITY_ANDROID
-		BurstlyAdWrapper_createBannerPlacement(placementName, appId, zoneId, originX, originY, width, height);
+			BurstlyAdWrapper_createBannerPlacement(placementName, appId, zoneId, originX, originY, width, height);
 		#endif
 	}
 	
@@ -204,9 +203,8 @@ public static class BurstlyAds {
 		and zoneId. Placement names must be unique across banner and interstitial ads.
 	 */
 	public static void createInterstitialPlacement(string placementName, string appId, string zoneId) {
-		
 		#if UNITY_IPHONE || UNITY_ANDROID
-		BurstlyAdWrapper_createInterstitialPlacement(placementName, appId, zoneId);
+			BurstlyAdWrapper_createInterstitialPlacement(placementName, appId, zoneId);
 		#endif
 	}
 	
@@ -215,9 +213,8 @@ public static class BurstlyAds {
 		the instance will not be able to be accessed and must be recreated.
 	 */
 	public static void destroyAdPlacement(string placementName) {
-		
 		#if UNITY_IPHONE || UNITY_ANDROID
-		BurstlyAdWrapper_destroyAdPlacement(placementName);
+			BurstlyAdWrapper_destroyAdPlacement(placementName);
 		#endif
 	}
 
@@ -227,9 +224,8 @@ public static class BurstlyAds {
 		will display the ad immediately if it has been precached or as soon as it is recieved otherwise.
 	 */
 	public static void showAd(string placementName) {
-		
 		#if UNITY_IPHONE || UNITY_ANDROID
-		BurstlyAdWrapper_showAd(placementName);
+			BurstlyAdWrapper_showAd(placementName);
 		#endif
 	}
 		
@@ -239,9 +235,8 @@ public static class BurstlyAds {
 		should be called and the ad will display.
 	 */
 	public static void cacheAd(string placementName) {
-		
 		#if UNITY_IPHONE || UNITY_ANDROID
-		BurstlyAdWrapper_cacheAd(placementName);
+			BurstlyAdWrapper_cacheAd(placementName);
 		#endif
 	}
     
@@ -249,9 +244,8 @@ public static class BurstlyAds {
 		Pauses the internal refresh timer for a banner ad.
 	 */
 	public static void pauseBanner(string placementName) {
-		
 		#if UNITY_IPHONE || UNITY_ANDROID
-		BurstlyAdWrapper_pauseBanner(placementName);
+			BurstlyAdWrapper_pauseBanner(placementName);
 		#endif
 	}
 
@@ -260,8 +254,7 @@ public static class BurstlyAds {
 	 */
 	public static void unpauseBanner(string placementName) {
 		#if UNITY_IPHONE || UNITY_ANDROID
-		
-		BurstlyAdWrapper_unpauseBanner(placementName);
+			BurstlyAdWrapper_unpauseBanner(placementName);
 		#endif
 	}
     
@@ -270,8 +263,7 @@ public static class BurstlyAds {
 	 */
 	public static void addBannerToView(string placementName) {
 		#if UNITY_IPHONE || UNITY_ANDROID
-		
-		BurstlyAdWrapper_addBannerToView(placementName);
+			BurstlyAdWrapper_addBannerToView(placementName);
 		#endif
 	}
     
@@ -280,8 +272,7 @@ public static class BurstlyAds {
 	 */
 	public static void removeBannerFromView(string placementName) {
 		#if UNITY_IPHONE || UNITY_ANDROID
-		
-		BurstlyAdWrapper_removeBannerFromView(placementName);
+			BurstlyAdWrapper_removeBannerFromView(placementName);
 		#endif
 	}
     
@@ -291,10 +282,9 @@ public static class BurstlyAds {
 	 */
 	public static bool isAdCached(string placementName) {
 		#if UNITY_IPHONE || UNITY_ANDROID
-		
-		return BurstlyAdWrapper_isAdCached(placementName);
+			return BurstlyAdWrapper_isAdCached(placementName);
 		#else
-		return false;
+			return false;
 		#endif
 	}
 		
@@ -305,8 +295,7 @@ public static class BurstlyAds {
 	 */
 	public static void setBannerOrigin(string placementName, float originX, float originY) {
 		#if UNITY_IPHONE || UNITY_ANDROID
-		
-		BurstlyAdWrapper_setBannerOrigin(placementName, originX, originY);
+			BurstlyAdWrapper_setBannerOrigin(placementName, originX, originY);
 		#endif
 	}
 
@@ -315,8 +304,7 @@ public static class BurstlyAds {
 	 */
 	public static void setBannerRefreshRate(string placementName, float refreshRate) {
 		#if UNITY_IPHONE || UNITY_ANDROID
-		
-		BurstlyAdWrapper_setBannerRefreshRate(placementName, refreshRate);
+			BurstlyAdWrapper_setBannerRefreshRate(placementName, refreshRate);
 		#endif
 	}
 
@@ -327,8 +315,7 @@ public static class BurstlyAds {
 	 */
 	public static void setTargettingParameters(string placementName, string targettingParameters) {
 		#if UNITY_IPHONE || UNITY_ANDROID
-		
-		BurstlyAdWrapper_setTargettingParameters(placementName, targettingParameters);
+			BurstlyAdWrapper_setTargettingParameters(placementName, targettingParameters);
 		#endif
 	}
 
@@ -339,8 +326,7 @@ public static class BurstlyAds {
 	 */
 	public static void setAdParameters(string placementName, string adParameters) {
 		#if UNITY_IPHONE || UNITY_ANDROID
-		
-		BurstlyAdWrapper_setAdParameters(placementName, adParameters);
+			BurstlyAdWrapper_setAdParameters(placementName, adParameters);
 		#endif
 	}
 	
@@ -371,8 +357,7 @@ public static class BurstlyAds {
 	 */
 	public static void setCallbackGameObjectName(string callbackGameObjectName) {
 		#if UNITY_IPHONE || UNITY_ANDROID
-		
-		BurstlyAdWrapper_setCallbackGameObjectName(callbackGameObjectName);
+			BurstlyAdWrapper_setCallbackGameObjectName(callbackGameObjectName);
 		#endif
 	}
 	

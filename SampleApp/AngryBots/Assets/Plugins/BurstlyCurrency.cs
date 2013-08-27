@@ -94,9 +94,9 @@ public static class BurstlyCurrency {
 		userId handled by BurstlyCurrency. DO NOT pass in NULL if there is no userId.
 	 */
 	public static void initialize(string publisherId, string userId) {
-		if ((Application.platform == RuntimePlatform.OSXEditor) || (Application.platform == RuntimePlatform.WindowsEditor)) return;
-		
-		BurstlyCurrencyWrapper_initialize(publisherId, userId);
+		#if UNITY_IPHONE || UNITY_ANDROID
+			BurstlyCurrencyWrapper_initialize(publisherId, userId);
+		#endif
 	}
 	
 	/*
@@ -104,9 +104,11 @@ public static class BurstlyCurrency {
 		server upon calling updateBalancesFromServer().
 	 */
 	public static int getBalance(string currency) {
-		if ((Application.platform == RuntimePlatform.OSXEditor) || (Application.platform == RuntimePlatform.WindowsEditor)) return 0;
-		
-		return BurstlyCurrencyWrapper_getBalance(currency);
+		#if UNITY_IPHONE || UNITY_ANDROID
+			return BurstlyCurrencyWrapper_getBalance(currency);
+		#else
+			return 0;
+		#endif
 	} 
 
 	/*
@@ -114,9 +116,9 @@ public static class BurstlyCurrency {
 		updates the Burstly server balance as well.
 	 */	
 	public static void increaseBalance(string currency, int amount) {
-		if ((Application.platform == RuntimePlatform.OSXEditor) || (Application.platform == RuntimePlatform.WindowsEditor)) return;
-		
-		BurstlyCurrencyWrapper_increaseBalance(currency, amount);
+		#if UNITY_IPHONE || UNITY_ANDROID	
+			BurstlyCurrencyWrapper_increaseBalance(currency, amount);
+		#endif
 	}
 	
 	/*
@@ -124,9 +126,9 @@ public static class BurstlyCurrency {
 		updates the Burstly server balance as well.
 	 */
 	public static void decreaseBalance(string currency, int amount) {
-		if ((Application.platform == RuntimePlatform.OSXEditor) || (Application.platform == RuntimePlatform.WindowsEditor)) return;
-		
-		BurstlyCurrencyWrapper_decreaseBalance(currency, amount);
+		#if UNITY_IPHONE || UNITY_ANDROID
+			BurstlyCurrencyWrapper_decreaseBalance(currency, amount);
+		#endif
 	}
 	
 	/*
@@ -136,9 +138,9 @@ public static class BurstlyCurrency {
 		by the BurstlyCurrency plugin will either be UPDATED or FAILED, depending on whether the update request is successful or fails.
 	 */
 	public static void updateBalancesFromServer() {
-		if ((Application.platform == RuntimePlatform.OSXEditor) || (Application.platform == RuntimePlatform.WindowsEditor)) return;
-		
-		BurstlyCurrencyWrapper_updateBalancesFromServer();
+		#if UNITY_IPHONE || UNITY_ANDROID
+			BurstlyCurrencyWrapper_updateBalancesFromServer();
+		#endif
 	}
 		
 	/*
@@ -149,9 +151,9 @@ public static class BurstlyCurrency {
 			FAILED		if the currency balances failed to update from the server
 	 */
 	public static void setCallbackGameObjectName(string callbackGameObjectName) {
-		if ((Application.platform == RuntimePlatform.OSXEditor) || (Application.platform == RuntimePlatform.WindowsEditor)) return;
-		
-		BurstlyCurrencyWrapper_setCallbackGameObjectName(callbackGameObjectName);
+		#if UNITY_IPHONE || UNITY_ANDROID
+			BurstlyCurrencyWrapper_setCallbackGameObjectName(callbackGameObjectName);
+		#endif
 	}
 	
 }

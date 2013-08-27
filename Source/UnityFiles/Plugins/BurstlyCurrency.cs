@@ -95,8 +95,7 @@ public static class BurstlyCurrency {
 	 */
 	public static void initialize(string publisherId, string userId) {
 		#if UNITY_IPHONE || UNITY_ANDROID
-		
-		BurstlyCurrencyWrapper_initialize(publisherId, userId);
+			BurstlyCurrencyWrapper_initialize(publisherId, userId);
 		#endif
 	}
 	
@@ -106,10 +105,9 @@ public static class BurstlyCurrency {
 	 */
 	public static int getBalance(string currency) {
 		#if UNITY_IPHONE || UNITY_ANDROID
-		
-		return BurstlyCurrencyWrapper_getBalance(currency);
+			return BurstlyCurrencyWrapper_getBalance(currency);
 		#else
-		return 0;
+			return 0;
 		#endif
 	} 
 
@@ -118,9 +116,8 @@ public static class BurstlyCurrency {
 		updates the Burstly server balance as well.
 	 */	
 	public static void increaseBalance(string currency, int amount) {
-		#if UNITY_IPHONE || UNITY_ANDROID
-		
-		BurstlyCurrencyWrapper_increaseBalance(currency, amount);
+		#if UNITY_IPHONE || UNITY_ANDROID	
+			BurstlyCurrencyWrapper_increaseBalance(currency, amount);
 		#endif
 	}
 	
@@ -130,8 +127,7 @@ public static class BurstlyCurrency {
 	 */
 	public static void decreaseBalance(string currency, int amount) {
 		#if UNITY_IPHONE || UNITY_ANDROID
-		
-		BurstlyCurrencyWrapper_decreaseBalance(currency, amount);
+			BurstlyCurrencyWrapper_decreaseBalance(currency, amount);
 		#endif
 	}
 	
@@ -143,8 +139,7 @@ public static class BurstlyCurrency {
 	 */
 	public static void updateBalancesFromServer() {
 		#if UNITY_IPHONE || UNITY_ANDROID
-		
-		BurstlyCurrencyWrapper_updateBalancesFromServer();
+			BurstlyCurrencyWrapper_updateBalancesFromServer();
 		#endif
 	}
 		
@@ -157,8 +152,7 @@ public static class BurstlyCurrency {
 	 */
 	public static void setCallbackGameObjectName(string callbackGameObjectName) {
 		#if UNITY_IPHONE || UNITY_ANDROID
-		
-		BurstlyCurrencyWrapper_setCallbackGameObjectName(callbackGameObjectName);
+			BurstlyCurrencyWrapper_setCallbackGameObjectName(callbackGameObjectName);
 		#endif
 	}
 	
