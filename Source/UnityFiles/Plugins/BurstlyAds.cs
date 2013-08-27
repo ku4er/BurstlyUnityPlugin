@@ -193,9 +193,10 @@ public static class BurstlyAds {
 		x-origin, y-origin, width and height. Placement names must be unique across banner and interstitial ads.
 	 */
 	public static void createBannerPlacement(string placementName, string appId, string zoneId, float originX, float originY, float width, float height) {
-		if ((Application.platform == RuntimePlatform.OSXEditor) || (Application.platform == RuntimePlatform.WindowsEditor)) return;
 		
+		#if UNITY_IPHONE || UNITY_ANDROID
 		BurstlyAdWrapper_createBannerPlacement(placementName, appId, zoneId, originX, originY, width, height);
+		#endif
 	}
 	
 	/*
@@ -203,9 +204,10 @@ public static class BurstlyAds {
 		and zoneId. Placement names must be unique across banner and interstitial ads.
 	 */
 	public static void createInterstitialPlacement(string placementName, string appId, string zoneId) {
-		if ((Application.platform == RuntimePlatform.OSXEditor) || (Application.platform == RuntimePlatform.WindowsEditor)) return;
 		
+		#if UNITY_IPHONE || UNITY_ANDROID
 		BurstlyAdWrapper_createInterstitialPlacement(placementName, appId, zoneId);
+		#endif
 	}
 	
 	/*
@@ -213,9 +215,10 @@ public static class BurstlyAds {
 		the instance will not be able to be accessed and must be recreated.
 	 */
 	public static void destroyAdPlacement(string placementName) {
-		if ((Application.platform == RuntimePlatform.OSXEditor) || (Application.platform == RuntimePlatform.WindowsEditor)) return;
 		
+		#if UNITY_IPHONE || UNITY_ANDROID
 		BurstlyAdWrapper_destroyAdPlacement(placementName);
+		#endif
 	}
 
 	/*
@@ -224,9 +227,10 @@ public static class BurstlyAds {
 		will display the ad immediately if it has been precached or as soon as it is recieved otherwise.
 	 */
 	public static void showAd(string placementName) {
-		if ((Application.platform == RuntimePlatform.OSXEditor) || (Application.platform == RuntimePlatform.WindowsEditor)) return;
 		
+		#if UNITY_IPHONE || UNITY_ANDROID
 		BurstlyAdWrapper_showAd(placementName);
+		#endif
 	}
 		
 	/*
@@ -235,45 +239,50 @@ public static class BurstlyAds {
 		should be called and the ad will display.
 	 */
 	public static void cacheAd(string placementName) {
-		if ((Application.platform == RuntimePlatform.OSXEditor) || (Application.platform == RuntimePlatform.WindowsEditor)) return;
 		
+		#if UNITY_IPHONE || UNITY_ANDROID
 		BurstlyAdWrapper_cacheAd(placementName);
+		#endif
 	}
     
 	/*
 		Pauses the internal refresh timer for a banner ad.
 	 */
 	public static void pauseBanner(string placementName) {
-		if ((Application.platform == RuntimePlatform.OSXEditor) || (Application.platform == RuntimePlatform.WindowsEditor)) return;
 		
+		#if UNITY_IPHONE || UNITY_ANDROID
 		BurstlyAdWrapper_pauseBanner(placementName);
+		#endif
 	}
 
 	/*
 		Unpauses the internal refresh timer for a banner ad.
 	 */
 	public static void unpauseBanner(string placementName) {
-		if ((Application.platform == RuntimePlatform.OSXEditor) || (Application.platform == RuntimePlatform.WindowsEditor)) return;
+		#if UNITY_IPHONE || UNITY_ANDROID
 		
 		BurstlyAdWrapper_unpauseBanner(placementName);
+		#endif
 	}
     
 	/*
 		Adds a banner ad to the view hierarchy, placing it on the screen.
 	 */
 	public static void addBannerToView(string placementName) {
-		if ((Application.platform == RuntimePlatform.OSXEditor) || (Application.platform == RuntimePlatform.WindowsEditor)) return;
+		#if UNITY_IPHONE || UNITY_ANDROID
 		
 		BurstlyAdWrapper_addBannerToView(placementName);
+		#endif
 	}
     
 	/*
 		Removes a banner ad from the view hierarchy, removing it from the screen.
 	 */
 	public static void removeBannerFromView(string placementName) {
-		if ((Application.platform == RuntimePlatform.OSXEditor) || (Application.platform == RuntimePlatform.WindowsEditor)) return;
+		#if UNITY_IPHONE || UNITY_ANDROID
 		
 		BurstlyAdWrapper_removeBannerFromView(placementName);
+		#endif
 	}
     
 	/*
@@ -281,9 +290,12 @@ public static class BurstlyAds {
 		ad has not been precached.
 	 */
 	public static bool isAdCached(string placementName) {
-		if ((Application.platform == RuntimePlatform.OSXEditor) || (Application.platform == RuntimePlatform.WindowsEditor)) return false;
+		#if UNITY_IPHONE || UNITY_ANDROID
 		
 		return BurstlyAdWrapper_isAdCached(placementName);
+		#else
+		return false;
+		#endif
 	}
 		
 	/*
@@ -292,18 +304,20 @@ public static class BurstlyAds {
 		top-left of the screen being (0, 0).
 	 */
 	public static void setBannerOrigin(string placementName, float originX, float originY) {
-		if ((Application.platform == RuntimePlatform.OSXEditor) || (Application.platform == RuntimePlatform.WindowsEditor)) return;
+		#if UNITY_IPHONE || UNITY_ANDROID
 		
 		BurstlyAdWrapper_setBannerOrigin(placementName, originX, originY);
+		#endif
 	}
 
 	/*
 		Sets the refresh rate for the banner's internal refresh timer in seconds.
 	 */
 	public static void setBannerRefreshRate(string placementName, float refreshRate) {
-		if ((Application.platform == RuntimePlatform.OSXEditor) || (Application.platform == RuntimePlatform.WindowsEditor)) return;
+		#if UNITY_IPHONE || UNITY_ANDROID
 		
 		BurstlyAdWrapper_setBannerRefreshRate(placementName, refreshRate);
+		#endif
 	}
 
 	/*	
@@ -312,9 +326,10 @@ public static class BurstlyAds {
 		e.g. "gender='m',age=22".
 	 */
 	public static void setTargettingParameters(string placementName, string targettingParameters) {
-		if ((Application.platform == RuntimePlatform.OSXEditor) || (Application.platform == RuntimePlatform.WindowsEditor)) return;
+		#if UNITY_IPHONE || UNITY_ANDROID
 		
 		BurstlyAdWrapper_setTargettingParameters(placementName, targettingParameters);
+		#endif
 	}
 
 	/*	
@@ -323,9 +338,10 @@ public static class BurstlyAds {
 		delimited) values. e.g. "gender='m',age=22".
 	 */
 	public static void setAdParameters(string placementName, string adParameters) {
-		if ((Application.platform == RuntimePlatform.OSXEditor) || (Application.platform == RuntimePlatform.WindowsEditor)) return;
+		#if UNITY_IPHONE || UNITY_ANDROID
 		
 		BurstlyAdWrapper_setAdParameters(placementName, adParameters);
+		#endif
 	}
 	
 	/*
@@ -354,9 +370,10 @@ public static class BurstlyAds {
 		For example, a BurstlyEventSucceeded callback event for a placement named "banner" will pass back a string "banner|0".
 	 */
 	public static void setCallbackGameObjectName(string callbackGameObjectName) {
-		if ((Application.platform == RuntimePlatform.OSXEditor) || (Application.platform == RuntimePlatform.WindowsEditor)) return;
+		#if UNITY_IPHONE || UNITY_ANDROID
 		
 		BurstlyAdWrapper_setCallbackGameObjectName(callbackGameObjectName);
+		#endif
 	}
 	
 }
