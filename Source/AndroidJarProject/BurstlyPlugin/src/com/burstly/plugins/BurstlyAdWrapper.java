@@ -2,6 +2,7 @@ package com.burstly.plugins;
 
 import java.util.HashMap;
 
+import com.burstly.lib.BurstlySdk;
 import com.burstly.lib.conveniencelayer.Burstly;
 import com.burstly.lib.ui.BurstlyView;
 import com.unity3d.player.UnityPlayer;
@@ -74,6 +75,8 @@ public class BurstlyAdWrapper {
 		
         mBurstlyViewHashMap = new HashMap<String, BurstlyView>();
         mBurstlyViewCachedHashMap = new HashMap<String, Boolean>();
+        
+        BurstlySdk.init(mActivity);
 	}
         
 	/*
