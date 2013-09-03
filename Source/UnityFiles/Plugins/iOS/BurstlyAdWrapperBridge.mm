@@ -82,6 +82,10 @@ static BurstlyAdWrapperBridge *_sharedInstance;
 
 #pragma mark Class Implementation
 
+- (void)trackDownload {
+	[BurstlyDownloadTracker track];
+}
+
 - (void)createBurstlyBannerAdWithPlacement:(NSString *)placement appId:(NSString*)appId andZoneId:(NSString*)zoneId andFrame:(CGRect)bannerFrame {
     // NOTE: this means nothing happens if the placement has already been created
     if (!placement || [_placementDictionary objectForKey:placement]) {
@@ -164,7 +168,7 @@ static BurstlyAdWrapperBridge *_sharedInstance;
 - (void)addBannerToViewForPlacement:(NSString *)placement{
     id view = [_placementDictionary objectForKey:placement];
     if (view && [view isKindOfClass:[BurstlyBanner class]]) {
-        [_rootViewController.view addSubview:view];
+        [_rootViewController.view addSubview:(BurstlyBanner *)view];
     } else {
         NSLog(@"Incorrect placement type for value. Expected type: BurstlyBanner");
     }
@@ -183,6 +187,8 @@ static BurstlyAdWrapperBridge *_sharedInstance;
     id adPlacement = [_placementDictionary objectForKey:placement];
     if (adPlacement && [adPlacement isKindOfClass:[BurstlyInterstitial class]]) {
         return ((BurstlyInterstitial *)adPlacement).state == BurstlyInterstitialStateCached;
+    } else {
+        NSLog(@"Incorrect placement type for value. Expected type: BurstlyInterstitial");
     }
     return NO;
 }
@@ -234,54 +240,59 @@ static BurstlyAdWrapperBridge *_sharedInstance;
 
 #pragma mark - BurstlyBannerViewDelegate Protocol
 
-- (void)BurstlyBanner:(BurstlyBanner *)view willTakeOverFullScreen:(NSString*)adNetwork {
+- (void)burstlyBanner:(BurstlyBanner *)view willTakeOverFullScreen:(NSDictionary *)info {
     NSArray *validKeys = [_placementDictionary allKeysForObject:view];
     if (validKeys && [validKeys count] > 0) {
         BurstlyAdWrapper_callback([(NSString *)[validKeys objectAtIndex:0] UTF8String], BurstlyEventTakeoverFullscreen);
     }
 }
 
-- (void)BurstlyBanner:(BurstlyBanner *)view willDismissFullScreen:(NSString*)adNetwork {
+- (void)burstlyBanner:(BurstlyBanner *)view willDismissFullScreen:(NSDictionary *)info {
     NSArray *validKeys = [_placementDictionary allKeysForObject:view];
     if (validKeys && [validKeys count] > 0) {
         BurstlyAdWrapper_callback([(NSString *)[validKeys objectAtIndex:0] UTF8String], BurstlyEventDismissFullscreen);
     }
 }
 
-- (void)BurstlyBanner:(BurstlyBanner *)view didHide:(NSString*)lastViewedNetwork {
+- (void)burstlyBanner:(BurstlyBanner *)view didHide:(NSDictionary *)info {
     NSArray *validKeys = [_placementDictionary allKeysForObject:view];
     if (validKeys && [validKeys count] > 0) {
         BurstlyAdWrapper_callback([(NSString *)[validKeys objectAtIndex:0] UTF8String], BurstlyEventHidden);
     }
 }
 
-- (void)BurstlyBanner:(BurstlyBanner *)view didShow:(NSString*)adNetwork {
+- (void)burstlyBanner:(BurstlyBanner *)view didShow:(NSDictionary *)info {
     NSArray *validKeys = [_placementDictionary allKeysForObject:view];
     if (validKeys && [validKeys count] > 0) {
         BurstlyAdWrapper_callback([(NSString *)[validKeys objectAtIndex:0] UTF8String], BurstlyEventShown);
     }
 }
 
-- (void)BurstlyBanner:(BurstlyBanner *)view didCache:(NSString*)adNetwork {
+- (void)burstlyBanner:(BurstlyBanner *)view didCache:(NSDictionary *)info {
     NSArray *validKeys = [_placementDictionary allKeysForObject:view];
     if (validKeys && [validKeys count] > 0) {
         BurstlyAdWrapper_callback([(NSString *)[validKeys objectAtIndex:0] UTF8String], BurstlyEventCached);
     }
 }
 
-- (void)BurstlyBanner:(BurstlyBanner *)view wasClicked:(NSString*)adNetwork {
+- (void)burstlyBanner:(BurstlyBanner *)view wasClicked:(NSDictionary *)info {
     NSArray *validKeys = [_placementDictionary allKeysForObject:view];
     if (validKeys && [validKeys count] > 0) {
         BurstlyAdWrapper_callback([(NSString *)[validKeys objectAtIndex:0] UTF8String], BurstlyEventClicked);
     }
 }
 
-- (void) BurstlyBanner:(BurstlyBanner *)view didFailWithError:(NSError*)error {
+- (void)burstlyBanner:(BurstlyBanner *)view didFail:(NSDictionary *)info {
     NSArray *validKeys = [_placementDictionary allKeysForObject:view];
     if (validKeys && [validKeys count] > 0) {
         BurstlyAdWrapper_callback([(NSString *)[validKeys objectAtIndex:0] UTF8String], BurstlyEventFailed);
     }
 }
+
+// Unimplemented BurstlyBannerDelegate Protocol Methods:
+// - (BOOL)burstlyBanner:(BurstlyBanner *)view shouldAutorotateInterstitialAdToInterfaceOrientation: (UIInterfaceOrientation)orientation withInfo: (NSDictionary *)info;
+// - (UIInterfaceOrientation)burstlyBannerRequiresCurrentInterfaceOrientation: (BurstlyBanner *)view withInfo: (NSDictionary *)info;
+
 
 #pragma mark - BurstlyInterstitialDelegate Protocol
 
@@ -289,53 +300,57 @@ static BurstlyAdWrapperBridge *_sharedInstance;
     return _viewControllerForModalPresentation;
 }
 
-- (void)burstlyInterstitial:(BurstlyInterstitial *)ad willTakeOverFullScreen:(NSString*)adNetwork {
+- (void)burstlyInterstitial:(BurstlyInterstitial *)ad willTakeOverFullScreen:(NSDictionary *)info {
     NSArray *validKeys = [_placementDictionary allKeysForObject:ad];
     if (validKeys && [validKeys count] > 0) {
         BurstlyAdWrapper_callback([(NSString *)[validKeys objectAtIndex:0] UTF8String], BurstlyEventTakeoverFullscreen);
     }
 }
 
-- (void)burstlyInterstitial:(BurstlyInterstitial *)ad willDismissFullScreen:(NSString*)adNetwork {
+- (void)burstlyInterstitial:(BurstlyInterstitial *)ad willDismissFullScreen:(NSDictionary *)info {
     NSArray *validKeys = [_placementDictionary allKeysForObject:ad];
     if (validKeys && [validKeys count] > 0) {
         BurstlyAdWrapper_callback([(NSString *)[validKeys objectAtIndex:0] UTF8String], BurstlyEventDismissFullscreen);
     }
 }
 
-- (void)burstlyInterstitial:(BurstlyInterstitial *)ad didHide:(NSString*)lastViewedNetwork {
+- (void)burstlyInterstitial:(BurstlyInterstitial *)ad didHide:(NSDictionary *)info {
     NSArray *validKeys = [_placementDictionary allKeysForObject:ad];
     if (validKeys && [validKeys count] > 0) {
         BurstlyAdWrapper_callback([(NSString *)[validKeys objectAtIndex:0] UTF8String], BurstlyEventHidden);
     }
 }
 
-- (void)burstlyInterstitial:(BurstlyInterstitial *)ad didShow:(NSString*)adNetwork {
+- (void)burstlyInterstitial:(BurstlyInterstitial *)ad didShow:(NSDictionary *)info {
     NSArray *validKeys = [_placementDictionary allKeysForObject:ad];
     if (validKeys && [validKeys count] > 0) {
         BurstlyAdWrapper_callback([(NSString *)[validKeys objectAtIndex:0] UTF8String], BurstlyEventShown);
     }
 }
 
-- (void)burstlyInterstitial:(BurstlyInterstitial *)ad didCache:(NSString*)adNetwork {
+- (void)burstlyInterstitial:(BurstlyInterstitial *)ad didCache:(NSDictionary *)info {
     NSArray *validKeys = [_placementDictionary allKeysForObject:ad];
     if (validKeys && [validKeys count] > 0) {
         BurstlyAdWrapper_callback([(NSString *)[validKeys objectAtIndex:0] UTF8String], BurstlyEventCached);
     }
 }
 
-- (void)burstlyInterstitial:(BurstlyInterstitial *)ad wasClicked:(NSString*)adNetwork {
+- (void)burstlyInterstitial:(BurstlyInterstitial *)ad wasClicked:(NSDictionary *)info {
     NSArray *validKeys = [_placementDictionary allKeysForObject:ad];
     if (validKeys && [validKeys count] > 0) {
         BurstlyAdWrapper_callback([(NSString *)[validKeys objectAtIndex:0] UTF8String], BurstlyEventClicked);
     }
 }
 
-- (void) burstlyInterstitial:(BurstlyInterstitial *)ad didFailWithError:(NSError*)error {
+- (void)burstlyInterstitial:(BurstlyInterstitial *)ad didFail:(NSDictionary *)info {
     NSArray *validKeys = [_placementDictionary allKeysForObject:ad];
     if (validKeys && [validKeys count] > 0) {
         BurstlyAdWrapper_callback([(NSString *)[validKeys objectAtIndex:0] UTF8String], BurstlyEventFailed);
     }
 }
+
+// Unimplemented BurstlyInterstitialDelegate Protocol Methods:
+// - (BOOL)burstlyInterstitial:(BurstlyInterstitial *)ad shouldAutorotateInterstitialAdToInterfaceOrientation: (UIInterfaceOrientation)orientation withInfo: (NSDictionary *)info;
+// - (UIInterfaceOrientation)burstlyInterstitialRequiresCurrentInterfaceOrientation: (BurstlyInterstitial *)ad withInfo: (NSDictionary *)info;
 
 @end

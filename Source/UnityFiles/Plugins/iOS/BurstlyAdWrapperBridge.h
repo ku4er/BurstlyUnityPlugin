@@ -7,8 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+
+#import "BurstlyDownloadTracker.h"
 #import "BurstlyBanner.h"
 #import "BurstlyInterstitial.h"
+
 #import "BurstlyAdViewViewController.h"
 
 #import "BurstlyAdWrapper.h"
@@ -20,6 +23,8 @@
 }
 
 + (BurstlyAdWrapperBridge *)sharedInstance;
+
+- (void)trackDownload;
 
 - (void)createBurstlyBannerAdWithPlacement:(NSString *)placement appId:(NSString*)appId andZoneId:(NSString*)zoneId andFrame:(CGRect)bannerFrame;
 - (void)createBurstlyInterstitialWithPlacement:(NSString *)placement appId:(NSString*)appId andZoneId:(NSString*)zoneId;

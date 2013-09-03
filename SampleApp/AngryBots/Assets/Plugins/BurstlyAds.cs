@@ -11,6 +11,9 @@ public static class BurstlyAds {
 	 
 	#if UNITY_IPHONE 
 		[DllImport ("__Internal")]
+		private static extern void BurstlyAdWrapper_trackDownload();
+		
+		[DllImport ("__Internal")]
 		private static extern void BurstlyAdWrapper_createBannerPlacement(string placementName, string appId, string zoneId, float originX, float originY, float width, float height);
 		
 		[DllImport ("__Internal")]
@@ -77,6 +80,14 @@ public static class BurstlyAds {
     	private static IntPtr methodID_setBannerRefreshRate = AndroidJNI.GetStaticMethodID(BurstlyPluginClass, "setBannerRefreshRate", "(Ljava/lang/String;F)V");
 		private static IntPtr methodID_setTargettingParameters = AndroidJNI.GetStaticMethodID(BurstlyPluginClass, "setTargettingParameters", "(Ljava/lang/String;Ljava/lang/String;)V");
 		private static IntPtr methodID_setAdParameters = AndroidJNI.GetStaticMethodID(BurstlyPluginClass, "setAdParameters", "(Ljava/lang/String;Ljava/lang/String;)V");
+		
+		private static void BurstlyAdWrapper_trackDownload() {
+			// This is stubbed because BurstlySdk.init(mActivity) initiates a download track request
+			//			See: https://github.com/burstly/BurstlyUnityPlugin/blob/master/Source/AndroidJarProject/BurstlyPlugin/src/com/burstly/plugins/BurstlyAdWrapper.java#L79
+			// This method *must* be called to use any functionality so a download is tracked within the onCreate override
+			// 		of the main Activity.
+			//			See: https://github.com/burstly/BurstlyUnityPlugin/blob/master/Source/AndroidJarProject/BurstlyPlugin/src/com/burstly/plugins/BurstlyPluginActivity.java#L12
+		}
 		
 		private static void BurstlyAdWrapper_createBannerPlacement(string placementName, string appId, string zoneId, float originX, float originY, float width, float height) {
 			jvalue[] args = new jvalue[7];
@@ -187,6 +198,18 @@ public static class BurstlyAds {
 	/************************************************************************/
 	/*   Public methods to interface with C#/Javascript code within Unity   */
 	/************************************************************************/
+	
+	/*
+		Tracks a download without displaying any ads. Note that if you display ads a download is tracked automatically.
+		This was added to facilitate download tracking in apps that use just currency functionality or wish to have 
+		finer-grained control over download tracking, such as in instances where an app is Universal and data exists to
+		automatically upgrade a user from 'lite' to full (no ads).
+	 */
+	public static void trackDownload() {
+		#if UNITY_IPHONE || UNITY_ANDROID
+			BurstlyAdWrapper_trackDownload();
+		#endif
+	}
 	
 	/*
 		Allocates and initialises a Burstly banner ad instance with the passed placementName, publisherId, zoneId, 

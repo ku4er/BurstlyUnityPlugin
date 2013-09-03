@@ -50,6 +50,8 @@ extern "C" {
         External callback that is called by the Objective-C / JNI layer. This needs to be written specifically for each platform and then proxy accordingly to whichever framework is being targeted.
      */
     extern void BurstlyAdWrapper_callback(const char *placementName, BurstlyEvent callbackEvent);
+    
+    void BurstlyAdWrapper_trackDownload();
 	
 	void BurstlyAdWrapper_createBannerPlacement(const char *placementName, const char *publisherId, const char *zoneId, float originX, float originY, float width, float height);
 	void BurstlyAdWrapper_createInterstitialPlacement(const char *placementName, const char *publisherId, const char *zoneId);

@@ -6,6 +6,10 @@
 
 extern "C" {
 	
+    void BurstlyAdWrapper_trackDownload() {
+    	[[BurstlyAdWrapperBridge sharedInstance] trackDownload];
+    }
+	
 	void BurstlyAdWrapper_createBannerPlacement(const char *placementName, const char *appId, const char *zoneId, float originX, float originY, float width, float height) {
         [[BurstlyAdWrapperBridge sharedInstance] createBurstlyBannerAdWithPlacement:CreateNSString(placementName) appId:CreateNSString(appId) andZoneId:CreateNSString(zoneId) andFrame:CGRectMake(originX, originY, width, height)];
 	}
