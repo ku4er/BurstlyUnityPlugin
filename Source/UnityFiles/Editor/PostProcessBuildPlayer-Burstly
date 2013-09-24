@@ -233,7 +233,6 @@ def postProcessIOS():
 	xcodeprojFilePath = xcodeprojDirPath + '/Unity-iPhone.xcodeproj'
 		
 	frameworks = [
-			["Accounts.framework", "E6442CFC17CBC7E20079BD30", "E6442CFB17CBC7E20079BD30"], \
 			["AddressBook.framework", "E68A8F92171DCDF500B313EA", "E68A8F6E171DCDF500B313EA"], \
 			["AddressBookUI.framework", "E68A8F93171DCDF500B313EA", "E68A8F6F171DCDF500B313EA"], \
 			["AudioToolbox.framework", "E68A8F95171DCDF500B313EA", "E68A8F71171DCDF500B313EA"], \
@@ -255,7 +254,6 @@ def postProcessIOS():
 			["OpenGLES.framework", "E68A8FAD171DCDF500B313EA", "E68A8F89171DCDF500B313EA"], \
 			["QuartzCore.framework", "E68A8FA7171DCDF500B313EA", "E68A8F83171DCDF500B313EA"], \
 			["Security.framework", "E68A8FA8171DCDF500B313EA", "E68A8F84171DCDF500B313EA"], \
-			["Social.framework", "E6442CFE17CBC7EB0079BD30", "E6442CFD17CBC7EB0079BD30"], \
 			["StoreKit.framework", "E68A8FA9171DCDF500B313EA", "E68A8F85171DCDF500B313EA"], \
 			["SystemConfiguration.framework", "E68A8FAA171DCDF500B313EA", "E68A8F86171DCDF500B313EA"], \
 			["UIKit.framework", "E68A8FAE171DCDF500B313EA", "E68A8F8A171DCDF500B313EA"]
@@ -271,6 +269,7 @@ def postProcessIOS():
 					"-weak_framework AdSupport", \
     				"-weak_framework PassKit", \
     				"-weak_framework Twitter", \
+    				"-weak_framework Social", \
 					"-lsqlite3.0", \
 					"-lz", \
 					"-lxml2", \
