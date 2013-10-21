@@ -27,8 +27,8 @@ The parameter passed must be the name of the GameObject you wish to receive call
 	
 **Integrated SDK Versions**:
 
-* iOS: 2.3.0.44373
-* Android: 1.31.0.43915	
+* iOS: 2.5.0.46949
+* Android: 1.34.0.46238
 	
 	
 
