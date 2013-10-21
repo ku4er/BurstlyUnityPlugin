@@ -63,9 +63,9 @@ static BurstlyCurrencyWrapperBridge *_sharedInstance;
 	if (!publisherId || !userId || [publisherId compare:@""] == NSOrderedSame) return;
 	
 	if ([userId compare:@""] == NSOrderedSame) {
-		[[BurstlyCurrency sharedCurrencyManager] setPublisherId:publisherId];
+		[[BurstlyCurrency sharedCurrencyManager] setAppId:publisherId];
 	} else {
-		[[BurstlyCurrency sharedCurrencyManager] setPublisherId:publisherId andUserId:userId];
+		[[BurstlyCurrency sharedCurrencyManager] setAppId:publisherId andUserId:userId];
 	}
 	
 	[[BurstlyCurrency sharedCurrencyManager] setDelegate:self];

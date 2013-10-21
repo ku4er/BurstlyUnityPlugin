@@ -64,7 +64,6 @@ typedef enum {
 {
     BurstlyTestAdNetwork _integrationModeAdNetwork;
     BOOL _integrationMode;
-    NSMutableDictionary     *_customParamsForNetworks;
 }
 
 @property (nonatomic,retain) BurstlyUserInfo *userInfo;
@@ -85,11 +84,15 @@ typedef enum {
 //  (must be single-quote delimited) values.
 @property (nonatomic, retain) NSString *adParameters;
 
+@property (nonatomic, readwrite) CGSize bannerSize;
+
+@property (nonatomic, readwrite) CGSize bannerSizeRange;
+
 // Returns an auto-released BurstlyAdRequest
 + (BurstlyAdRequest *)request;
 
 - (NSString *)integrationModeAppId;
-- (void)setIntegrationModeWithTestNetwork:(BurstlyTestAdNetwork)aTestNetwork filterDeviceMacAddresses:(NSArray *)deviceMacAddresses;
+- (void)setIntegrationModeWithTestNetwork:(BurstlyTestAdNetwork)aTestNetwork filterAdvertisingIdentifiers:(NSArray *)advertisingIdentifiers;
 
 // Mediated ad-networks may have additional parameters they accept. To pass these
 // parameters to them, create a dictionary object with the appropriate key-value

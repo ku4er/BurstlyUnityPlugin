@@ -9,8 +9,6 @@
 #import "BurstlyAdRequest.h"
 #import "BurstlyInterstitialDecorator.h"
 
-#define BURSTLY_INTERSTITIAL_IDENTIFIER_BANNER_AS_INTERSTITIAL      @"bannerAsInterstitial"
-
 #pragma mark Delegate
 
 @class BurstlyInterstitial;
@@ -196,7 +194,7 @@ typedef enum {
 - (id)initAppId:(NSString *)anAppId zoneId:(NSString *)aZoneId delegate:(id<BurstlyInterstitialDelegate>)aDelegate useAutomaticCaching:(BOOL)automaticCaching;
 
 // NOT FOR PRODUCTION USE. Init with integration mode and a specific test network.
-- (id)initWithIntegrationModeTestNetwork:(BurstlyTestAdNetwork)aTestNetwork filterDeviceMacAddresses:(NSArray *)deviceMacAddresses delegate:(id<BurstlyInterstitialDelegate>)aDelegate;
+- (id)initWithIntegrationModeTestNetwork:(BurstlyTestAdNetwork)aTestNetwork filterAdvertisingIdentifiers:(NSArray *)advertisingIdentifiers delegate:(id<BurstlyInterstitialDelegate>)aDelegate;
 
 #pragma mark - Showing
 
@@ -227,14 +225,13 @@ typedef enum {
 * @param decorator Interstitial decorator. @see BurstlyInterstitialDecorator.
 * @param interstitialIdentifier Identifier of interstitial type for which decorator is being registered.
 */
-+ (void)registerDecorator: (id <BurstlyInterstitialDecorator>)decorator
-           ofInterstitial: (NSString *)interstitialIdentifier;
++ (void)registerDecorator: (id <BurstlyInterstitialDecorator>)decorator;
 
 /**
 * Removes previously registered interstitial decorator.
 *
 * @param interstitialIdentifier Identifier of interstitial type.
 */
-+ (void)removeInterstitialDecorator: (NSString *)interstitialIdentifier;
++ (void)removeInterstitialDecorator;
 
 @end

@@ -9,6 +9,7 @@ typedef enum {
 	BurstlyLogLevelDebug    =	0,
     BurstlyLogLevelInfo     =	1,
     BurstlyLogLevelWarn     =	2,
-    BurstlyLogLevelError    =	3,
-    BurstlyLogLevelFatal    =	4
+    BurstlyLogLevelBrief    =   3,
+    BurstlyLogLevelError    =	4,
+    BurstlyLogLevelFatal    =	5
 } BurstlyLogLevel;

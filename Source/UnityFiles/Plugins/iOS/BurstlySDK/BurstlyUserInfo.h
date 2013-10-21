@@ -9,7 +9,7 @@
 #import <CoreLocation/CoreLocation.h>
 
 @interface BurstlyUserInfo : NSObject {
-    NSString *dateOfBirth_;
+    NSString *dateOfBitrh_;
     NSString *postalCode_;
     NSString *zipCode_;
     NSString *areaCode_;

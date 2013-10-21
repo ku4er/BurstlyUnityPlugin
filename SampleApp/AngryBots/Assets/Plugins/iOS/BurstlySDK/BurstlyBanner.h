@@ -81,7 +81,6 @@
 
 @interface BurstlyBanner : UIView
 {
-    OAIAdManager *_adManager;
     NSString *_appId;
     NSString *_zoneId;
     BurstlyAdRequest *_adRequest;
@@ -121,12 +120,12 @@
 // Set the rootViewController to the most valid topmost view controller. You will recieve a
 // callback (burstlyBanner:willTakeOverFullScreen:) via the BurstlyBannerDelegate when the
 // banner is clicked and prior to rolling out the modal view controller.
-@property (nonatomic, assign) UIViewController *rootViewController;
+@property (nonatomic, assign) IBOutlet UIViewController *rootViewController;
 
 // Delegate object that receives state change notifications when conforming to the
 // BurstyBannerViewDelegate protocol. Remember to explicitly set the delegate to nil
 // when you release the delegate object.
-@property (nonatomic, assign) id<BurstlyBannerDelegate> delegate;
+@property (nonatomic, assign) IBOutlet id<BurstlyBannerDelegate> delegate;
 
 // Specifies the interval between banner ad refreshes. Burstly handles
 // the ad refreshes after the first call to showAd. This value can be
@@ -138,16 +137,24 @@
 #pragma mark - Sizes
 
 // iPhone and iPod Touch ad size.
-#define BBANNER_SIZE_320x53     CGSizeMake(320, 53)
+#define BBANNER_SIZE_320x50     CGSizeMake(320, 50)
 
 // Medium Rectangle size for the iPhone/iPad
 #define BBANNER_SIZE_300x250    CGSizeMake(300, 250)
 
+#define BBANNER_SIZE_468x60    CGSizeMake(468, 60)
+
+#define BBANNER_SIZE_480x32    CGSizeMake(480, 32)
+
 // Leaderboard size for the iPad.
 #define BBANNER_SIZE_728x90     CGSizeMake(728, 90)
 
+#define BBANNER_SIZE_768x66    CGSizeMake(768, 66)
+
 // Skyscraper size for the iPad.
 #define BBANNER_SIZE_120x600    CGSizeMake(120, 600)
+
+#define BBANNER_SIZE_1024x66    CGSizeMake(1024, 66)
 
 #pragma mark - Initialization
 
@@ -155,7 +162,7 @@
 - (id)initWithAppId:(NSString *)anAppId zoneId:(NSString *)aZoneId frame:(CGRect)aFrame anchor:(BurstlyAnchor)anAnchor rootViewController:(UIViewController *)aRootViewController delegate:(id<BurstlyBannerDelegate>)aDelegate;
 
 // NOT FOR PRODUCTION USE. Init with integration mode and a specific test network.
-- (id)initWithIntegrationModeTestNetwork:(BurstlyTestAdNetwork)aTestNetwork filterDeviceMacAddresses:(NSArray *)deviceMacAddresses frame:(CGRect)aFrame anchor:(BurstlyAnchor)anAnchor rootViewController:(UIViewController *)aRootViewController delegate:(id<BurstlyBannerDelegate>)aDelegate;
+- (id)initWithIntegrationModeTestNetwork:(BurstlyTestAdNetwork)aTestNetwork filterAdvertisingIdentifiers:(NSArray *)advertisingIdentifiers frame:(CGRect)aFrame anchor:(BurstlyAnchor)anAnchor rootViewController:(UIViewController *)aRootViewController delegate:(id<BurstlyBannerDelegate>)aDelegate;
 
 #pragma mark - Showing
 

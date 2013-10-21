@@ -27,7 +27,7 @@ extern NSString * BurstlyCurrencyBalancesUpdateNotification;
 
 @interface BurstlyCurrency : NSObject {
     id<BurstlyCurrencyDelegate> delegate_;
-    NSString *publisherId_;
+    NSString *appId_;
     NSString *userId_;
 }
 
@@ -40,8 +40,8 @@ extern NSString * BurstlyCurrencyBalancesUpdateNotification;
 - (void) checkForUpdate;
 
 
-- (void)setPublisherId: (NSString*)publisherId;
-- (void)setPublisherId: (NSString*)publisherId andUserId: (NSString*)userId;
+- (void)setAppId: (NSString*)appId;
+- (void)setAppId: (NSString *)appId andUserId: (NSString*)userId;
 
 @property (nonatomic, assign) id<BurstlyCurrencyDelegate> delegate;
 @property (nonatomic, readonly) NSString *publisherId;
