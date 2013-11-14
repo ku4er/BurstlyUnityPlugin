@@ -12,27 +12,32 @@ public class BurstlyPluginActivity extends UnityPlayerActivity {
         BurstlyAdWrapper.init(this);
         BurstlyCurrencyWrapper.init(this);
         
+//        TestFlightWrapper.init(this.getApplication());
+        
     	BurstlyAdWrapper.createViewLayout();
     }
     
     @Override
     public void onResume() {
-    	BurstlyCurrencyWrapper.updateBalancesFromServer();
+    	BurstlyCurrencyWrapper.onResumeActivity(this);
     	BurstlyAdWrapper.onResumeActivity(this);
+    	
         super.onResume();
     }
 
     @Override
     public void onPause() {
-    	BurstlyCurrencyWrapper.updateBalancesFromServer();
+    	BurstlyCurrencyWrapper.onPauseActivity(this);
     	BurstlyAdWrapper.onPauseActivity(this);
+    	
         super.onPause();
     }
 
     @Override
     public void onDestroy() {
-    	BurstlyCurrencyWrapper.updateBalancesFromServer();
+    	BurstlyCurrencyWrapper.onDestroyActivity(this);
     	BurstlyAdWrapper.onDestroyActivity(this);
+    	
         super.onDestroy();
     }
 

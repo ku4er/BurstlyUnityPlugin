@@ -72,6 +72,7 @@ extern "C" {
 	void BurstlyAdWrapper_setBannerRefreshRate(const char *placementName, float refreshRate);
 	void BurstlyAdWrapper_setTargettingParameters(const char *placementName, const char *targetingParameters);
 	void BurstlyAdWrapper_setAdParameters(const char *placementName, const char *adParameters);
+	void BurstlyAdWrapper_setLoggingEnabled(bool enabled);
 
 }
 

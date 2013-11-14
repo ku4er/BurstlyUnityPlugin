@@ -67,6 +67,8 @@ static BurstlyAdWrapperBridge *_sharedInstance;
         [[[UIApplication sharedApplication] keyWindow] addSubview:_viewControllerForModalPresentation.view];
 
         _placementDictionary = [[NSMutableDictionary alloc] init];
+        
+        [self setLoggingEnabled:YES];
     }
     return self;
 }
@@ -236,6 +238,13 @@ static BurstlyAdWrapperBridge *_sharedInstance;
     } else {
         NSLog(@"Placement does not exist.");
     }	
+}
+
+- (void)setLoggingEnabled:(BOOL)enabled {
+	if (enabled)
+		[BurstlyAdUtils setLogLevel:BurstlyLogLevelDebug];
+	else
+		[BurstlyAdUtils setLogLevel:BurstlyLogLevelFatal];
 }
 
 #pragma mark - BurstlyBannerViewDelegate Protocol

@@ -77,6 +77,8 @@ public class BurstlyAdWrapper {
         mBurstlyViewCachedHashMap = new HashMap<String, Boolean>();
         
         BurstlySdk.init(mActivity);
+        
+        setLoggingEnabled(true);
 	}
         
 	/*
@@ -119,14 +121,13 @@ public class BurstlyAdWrapper {
      * Helper method for error checking and messaging. These are here to prevent null pointer exceptions and crashes if the
      * plugin JNI methods are called without the plugin being initialised. 
      */
-	
 	private static boolean isPluginInitialised() {
 		if (mActivity == null) {
-			Log.e("BurstlyAds", "FATAL ERROR: The plugin has not been initialised with your main activity. BurstlyAdWrapper.init(Activity aActivity) MUST be called before any placements can be created.");
+			Log.e("BurstlyAds", "ERROR: The plugin has not been initialised with your main activity. BurstlyAdWrapper.init(Activity aActivity) MUST be called before any placements can be created.");
 			return false;
 		}
 		if (mBaseLayout == null) {
-			Log.e("BurstlyAds", "FATAL ERROR: The view layout for the plugin has not been created. BurstlyAdWrapper.createViewLayout() MUST be called before any placements can be created.");
+			Log.e("BurstlyAds", "ERROR: The view layout for the plugin has not been created. BurstlyAdWrapper.createViewLayout() MUST be called before any placements can be created.");
 			return false;
 		}
 		return true;
@@ -491,6 +492,18 @@ public class BurstlyAdWrapper {
 	}
 	
 	/*
+	 * Sets whether logging is enabled. Defaults to true.
+	 * 
+	 * @param	bEnabled	A boolean representing whether logging should be enabled or disabled.
+	 * 
+	 */
+	public static void setLoggingEnabled(boolean bEnabled) {
+		if (!isPluginInitialised()) return;
+		
+		Burstly.setLoggingEnabled(bEnabled);
+	}
+	
+	/*
 	 * Sets the name of the callback GameObject to use UnitySendMessage with. Calls the BurstlyCallback method of the GameObject with a string
 	 * parameter representing the placementName|callbackEvent (pipe-delimited).
 	 * 
@@ -502,8 +515,7 @@ public class BurstlyAdWrapper {
 		
 		mCallbackGameObjectName = sCallbackGameObjectName; 
 	}
-	
-	
+
 	
 	/********************************************************************************/
 	/* INTERNAL JAVA METHODS - CALLED BY INTERNAL LOGIC TO FACILITATE FUNCTIONALITY */

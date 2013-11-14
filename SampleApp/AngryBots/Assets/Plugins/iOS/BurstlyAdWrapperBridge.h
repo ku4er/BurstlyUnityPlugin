@@ -16,6 +16,8 @@
 
 #import "BurstlyAdWrapper.h"
 
+#import "BurstlyAdUtils.h"
+
 @interface BurstlyAdWrapperBridge : NSObject<BurstlyBannerDelegate, BurstlyInterstitialDelegate> {
     UIViewController *_rootViewController;
     UIViewController *_viewControllerForModalPresentation;
@@ -46,5 +48,7 @@
 
 - (void)setTargettingParameters:(NSString *)targettingParameters forPlacement:(NSString *)placement;
 - (void)setAdParameters:(NSString *)adParameters forPlacement:(NSString *)placement;
+
+- (void)setLoggingEnabled:(BOOL)enabled;
 
 @end

@@ -3,6 +3,7 @@ package com.burstly.plugins;
 import android.app.Activity;
 import android.util.Log;
 
+import com.burstly.lib.conveniencelayer.Burstly;
 import com.burstly.lib.currency.CurrencyManager;
 import com.unity3d.player.UnityPlayer;
 
@@ -26,6 +27,7 @@ public class BurstlyCurrencyWrapper {
 		mActivity = aActivity;
 	}
 	
+	
     /*
      * Helper method for error checking and messaging. These are here to prevent null pointer exceptions and crashes if the
      * plugin JNI methods are called without the plugin being initialised. 
@@ -33,14 +35,44 @@ public class BurstlyCurrencyWrapper {
 	
 	private static boolean isPluginInitialised() {
 		if (mActivity == null) {
-			Log.e("BurstlyCurrency", "FATAL ERROR: The plugin has not been initialised with your main activity. BurstlyCurrencyWrapper.init(Activity aActivity) MUST be called before any currency-related methods are called.");
+			Log.e("BurstlyCurrency", "ERROR: The plugin has not been initialised with your main activity. BurstlyCurrencyWrapper.init(Activity aActivity) MUST be called before any currency-related methods are called.");
 			return false;
 		}
 		if (mCurrencyManager == null) {
-			Log.e("BurstlyCurrency", "FATAL ERROR: The plugin has not been initialised with your publisherId. BurstlyCurrency.initialize(string publisherId, string userId) MUST be called before any other BurstlyCurrency methods are called.");
+			Log.e("BurstlyCurrency", "ERROR: The plugin has not been initialised with your publisherId. BurstlyCurrency.initialize(string publisherId, string userId) MUST be called before any other BurstlyCurrency methods are called.");
 			return false;
 		}
 		return true;
+	}
+	
+	/*
+	 * These methods just update the currency balance on lifecycle methods for convenience. Note that these MUST be called in the app's Activity
+	 * lifecycle methods for this to occur. Sample below:
+	 * 
+	 * 		@Override
+	 * 		protected void onPause() {
+	 * 			BurstlyCurrencyWrapper.onPauseActivity(this);
+	 * 			super.onPause();
+	 * 		}
+	 * 
+	 * 		@Override
+	 * 		protected void onResume() {
+	 * 			BurstlyCurrencyWrapper.onResumeActivity(this);
+	 * 			super.onResume();
+	 * 		}
+	 * 
+	 * 		@Override
+	 * 		protected void onDestroy() {
+	 * 			BurstlyCurrencyWrapper.onDestroyActivity(this);
+	 * 			super.onDestroy();
+	 * 		}
+	 */
+	public static void onPauseActivity(Activity aActivity) 		{	activityLifecycleHelper(aActivity);		}
+	public static void onResumeActivity(Activity aActivity) 	{	activityLifecycleHelper(aActivity);		}
+	public static void onDestroyActivity(Activity aActivity) 	{	activityLifecycleHelper(aActivity);		}
+	private static void activityLifecycleHelper(Activity aActivity)		{	
+		if ((mActivity != null) && (mCurrencyManager != null)) 
+			updateBalancesFromServer();
 	}
 	
 	

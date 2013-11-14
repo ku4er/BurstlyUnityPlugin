@@ -1,8 +1,8 @@
-# Burstly Unity Plugin
+# Burstly Unity Plugin (includes SkyRocket and TestFlight functionality)
 
 ## Adding to Unity
 
-In order to add the Burstly Unity plugin into your Unity project, take the drag and drop the contents of Unity/BurstlyPlugin/DragIntoUnity/Editor into your Unity project's Assets/Editor/ folder and drag and drop the contents of Unity/BurstlyPlugin/DragIntoUnity/Plugins into your Unity project's Assets/Plugins folder. Once that's done, you can add Burstly ad placements into your Unity project.
+In order to add the Burstly Unity plugin into your Unity project, take the drag and drop the contents of Unity/BurstlyPlugin/DragIntoUnity/Editor into your Unity project's Assets/Editor/ folder and drag and drop the contents of Unity/BurstlyPlugin/DragIntoUnity/Plugins into your Unity project's Assets/Plugins folder. Once that's done, you can add SkyRocket ad placements and TestFlight into your Unity project.
 
 **Note**: The Burstly Unity plugin is currently supported on Windows only if Python is installed.
 
@@ -12,7 +12,7 @@ In order to add the Burstly Unity plugin into your Unity project, take the drag 
 Deploying to Android and iOS is seamless - just Build and Run. Our plugin takes care of adding the appropriate frameworks and linking the required libraries for default builds containing all officially-supported networks. In order to support Adaptors, add the appropriate .jar files into the Plugins/Android directory for Android. For iOS Adaptors, add the appropriate .a files into Plugins/iOS/BurstlySDK and ensure that the Editor/PostProcessBuildPlayer-Burstly script has the appropriate linker flags to link in the adaptor .a files in the "linkerFlags" array.
 
 
-## Overview
+## SkyRocket
 
 The Burstly Unity plugin manifests itself as a static class called BurstlyAds for ad (banner/interstitial) functionality and BurstlyCurrency for currency functionality. Static methods within these classes are used to interact with the native Burstly SDK from managed code. You can find inline documentation for these methods in BurstlyAds.cs and BurstlyCurrency.cs. Note that the coordinate system used to position and size ads is based on the Unity GUI coordinate system and not the in-game coordinate system.
 
@@ -27,9 +27,22 @@ The parameter passed must be the name of the GameObject you wish to receive call
 	
 **Integrated SDK Versions**:
 
-* iOS: 2.5.0.46949
-* Android: 1.34.0.46238
+* iOS: 2.5.0.46949 (includes TestFlight 1.2.6)
+* Android: 1.34.0.46238 (includes TestFlight 1.2)
 	
+	
+## TestFlight
+
+This plugin includes TestFlight functionality for iOS and Android via TestFlight.cs. This class proxies all TestFlight methods directly from managed Unity code to unmanaged native (iOS and Android) code.
+
+For Android integration, your manifest *MUST* include the following:
+
+* A meta-data tag with android:name "testflight-app-token" within the &lt;application&gt; tag of your manifest with android:value equal to your app's TestFlight App Token. Sample: &lt;meta-data android:name="testflight-app-token" android:value="2cb80607-50c0-4f00-819a-e8f1851909b4" /&gt;
+* An android:name attribute in your &lt;application&gt; tag with the value "com.burstly.plugins.TestFlightApplication". Sample: &lt;application android:name="com.burstly.plugins.TestFlightApplication"&gt;
+
+Note that in Android no data will show in the TestFlight SDK Debugger console if the app is launched from a Unity build + run. The app must be killed and run via the phone launcher to show data in the TestFlight SDK Debugger.
+	
+You can find inline documentation in the repo: https://github.com/burstly/BurstlyUnityPlugin/blob/master/Source/UnityFiles/Plugins/TestFlight.cs	
 	
 
 ## Known Issues
@@ -75,5 +88,5 @@ See inline documentation in the repo:
 
 	Ads: https://github.com/burstly/BurstlyUnityPlugin/blob/master/Source/UnityFiles/Plugins/BurstlyAds.cs
 	Currency: https://github.com/burstly/BurstlyUnityPlugin/blob/master/Source/UnityFiles/Plugins/BurstlyCurrency.cs
-	
+	TestFlight: https://github.com/burstly/BurstlyUnityPlugin/blob/master/Source/UnityFiles/Plugins/TestFlight.cs
 	

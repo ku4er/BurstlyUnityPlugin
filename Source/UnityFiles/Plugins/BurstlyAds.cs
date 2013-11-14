@@ -54,6 +54,9 @@ public static class BurstlyAds {
 	
 		[DllImport ("__Internal")]
 		private static extern void BurstlyAdWrapper_setAdParameters(string placementName, string adParameters);
+		
+		[DllImport ("__Internal")]
+		private static extern void BurstlyAdWrapper_setLoggingEnabled(bool enabled);
 	
 		[DllImport ("__Internal")]
 		private static extern void BurstlyAdWrapper_setCallbackGameObjectName(string callbackGameObjectName);
@@ -79,6 +82,7 @@ public static class BurstlyAds {
 		private static IntPtr methodID_setCallbackGameObjectName = AndroidJNI.GetStaticMethodID(BurstlyPluginClass, "setCallbackGameObjectName", "(Ljava/lang/String;)V");
     	private static IntPtr methodID_setBannerRefreshRate = AndroidJNI.GetStaticMethodID(BurstlyPluginClass, "setBannerRefreshRate", "(Ljava/lang/String;F)V");
 		private static IntPtr methodID_setTargettingParameters = AndroidJNI.GetStaticMethodID(BurstlyPluginClass, "setTargettingParameters", "(Ljava/lang/String;Ljava/lang/String;)V");
+		private static IntPtr methodID_setLoggingEnabled = AndroidJNI.GetStaticMethodID(BurstlyPluginClass, "setLoggingEnabled", "(Z)V");
 		private static IntPtr methodID_setAdParameters = AndroidJNI.GetStaticMethodID(BurstlyPluginClass, "setAdParameters", "(Ljava/lang/String;Ljava/lang/String;)V");
 		
 		private static void BurstlyAdWrapper_trackDownload() {
@@ -184,7 +188,13 @@ public static class BurstlyAds {
       		args[0].l = AndroidJNI.NewStringUTF(placementName);
       		args[1].l = AndroidJNI.NewStringUTF(adParameters);
 			AndroidJNI.CallStaticVoidMethod(BurstlyPluginClass, methodID_setAdParameters, args);
-		}		
+		}	
+		
+		private static void BurstlyAdWrapper_setLoggingEnabled(bool enabled) {
+			jvalue[] args = new jvalue[1];
+			args[0].z = enabled;
+			AndroidJNI.CallStaticVoidMethod(BurstlyPluginClass, methodID_setLoggingEnabled, args);	
+		}	
 	
 		private static void BurstlyAdWrapper_setCallbackGameObjectName(string callbackGameObjectName) {
 			jvalue[] args = new jvalue[1];
@@ -350,6 +360,15 @@ public static class BurstlyAds {
 	public static void setAdParameters(string placementName, string adParameters) {
 		#if UNITY_IPHONE || UNITY_ANDROID
 			BurstlyAdWrapper_setAdParameters(placementName, adParameters);
+		#endif
+	}
+
+	/*	
+		Sets whether logging should be enabled or disabled. Logging is enabled by default.
+	 */
+	public static void setLoggingEnabled(bool enabled) {
+		#if UNITY_IPHONE || UNITY_ANDROID
+			BurstlyAdWrapper_setLoggingEnabled(enabled);
 		#endif
 	}
 	

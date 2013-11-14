@@ -53,6 +53,7 @@ public class BurstlyPluginUI : AssetPostprocessor {
 		p.StartInfo.UseShellExecute = false;
 		p.StartInfo.RedirectStandardOutput = true;
 		p.StartInfo.FileName = Application.dataPath + "/Editor/PostProcessBuildPlayer-Burstly";
+		// This following line is commented because the keystore arguments are passed automatically by the player
 		//p.StartInfo.Arguments = "'" + pathToBuiltProject + "' '" + deploymentPlatform + "' '" + EditorPrefs.GetString("AndroidSdkRoot") + "' '" + PlayerSettings.Android.keystoreName + "' '" + PlayerSettings.Android.keystorePassword + "' '" + PlayerSettings.Android.keyaliasName + "' '" + PlayerSettings.Android.keyaliasPassword + "'";
 		p.StartInfo.Arguments = "'" + pathToBuiltProject + "' '" + deploymentPlatform + "' '" + EditorPrefs.GetString("AndroidSdkRoot") + "'";
 		p.Start();

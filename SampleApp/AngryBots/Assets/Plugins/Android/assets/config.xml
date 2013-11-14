@@ -10,9 +10,9 @@
 		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
 		http://www.springframework.org/schema/util 
 		http://www.springframework.org/schema/util/spring-util.xsd">
-							<bean id="apptracking" name="AppTrackingManager" class="com.burstly.lib.apptracking.AppTrackingManager" burstly:validate="false"/>
 							<bean id="currency" name="CurrencyManager" class="com.burstly.lib.currency.CurrencyManager" burstly:validate="false"/>
-							<bean id="debug" name="BurstlyDebugBridge" class="com.burstly.lib.debugging.BurstlyDebugBridge" burstly:validate="false"/>
 							<bean id="dtracker" name="DownloadTrackingManager" class="com.burstly.lib.downloadtracker.DownloadTrackingManager" burstly:validate="false"/>
 							<bean id="burstly" name="BurstlyAdaptorFactory" class="com.burstly.lib.component.networkcomponent.burstly.BurstlyAdaptorFactory" burstly:validate="true"/>
+							<bean id="apptracking" name="AppTrackingManager" class="com.burstly.lib.apptracking.AppTrackingManager" burstly:validate="false"/>
+							<bean id="testflight" name="TestFlightLayer" class="com.burstly.lib.testflight.TestFlightLayer" burstly:validate="false"/>
 </beans>

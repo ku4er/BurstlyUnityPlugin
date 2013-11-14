@@ -66,4 +66,8 @@ extern "C" {
 		[[BurstlyAdWrapperBridge sharedInstance] setAdParameters:CreateNSString(adParameters) forPlacement:CreateNSString(placementName)];
 	}
 	
+	void BurstlyAdWrapper_setLoggingEnabled(bool enabled) {
+		[[BurstlyAdWrapperBridge sharedInstance] setLoggingEnabled:enabled];
+	}
+	
 }
