@@ -23,9 +23,6 @@ public static class TestFlight {
 		[DllImport ("__Internal")]
 		private static extern void TestFlightWrapper_submitFeedback(string feedback);
 		
-		[DllImport ("__Internal")]
-		private static extern void TestFlightWrapper_setDeviceIdentifier(string deviceIdentifier);
-		
 	#endif
 	
 	#if UNITY_ANDROID
@@ -54,10 +51,6 @@ public static class TestFlight {
 		}
 		
 		private static void TestFlightWrapper_submitFeedback(string feedback) {
-			// This method does not exist in the Android TestFlight SDK	
-		}
-		
-		private static void TestFlightWrapper_setDeviceIdentifier(string deviceIdentifier) {
 			// This method does not exist in the Android TestFlight SDK	
 		}
 		

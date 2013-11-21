@@ -18,6 +18,11 @@
 
 #import "BurstlyAdUtils.h"
 
+// Unity 4.3 inserts a SplashScreenController on load before inserting its actual game ViewController, so
+// we need to make sure that our view hierarchy is inserted appropriately
+#import "SplashScreen.h"
+#import "UnityAppController.h"
+
 @interface BurstlyAdWrapperBridge : NSObject<BurstlyBannerDelegate, BurstlyInterstitialDelegate> {
     UIViewController *_rootViewController;
     UIViewController *_viewControllerForModalPresentation;

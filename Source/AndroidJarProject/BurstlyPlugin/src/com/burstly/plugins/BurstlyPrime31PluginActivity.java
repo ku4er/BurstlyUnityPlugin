@@ -2,7 +2,7 @@ package com.burstly.plugins;
 
 import android.os.Bundle;
 
-public class BurstlyPluginActivity extends com.unity3d.player.UnityPlayerNativeActivity {
+public class BurstlyPrime31PluginActivity extends com.prime31.UnityPlayerNativeActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

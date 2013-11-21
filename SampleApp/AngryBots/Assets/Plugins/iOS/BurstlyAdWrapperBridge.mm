@@ -13,7 +13,6 @@
 
 static BurstlyAdWrapperBridge *_sharedInstance;
 
-
 #pragma mark Singleton Implementation
 
 + (id)allocWithZone:(NSZone*)zone {
@@ -43,29 +42,28 @@ static BurstlyAdWrapperBridge *_sharedInstance;
 - (id)init {
     self = [super init];
     if (self) {
-    	
-    	/*
-    		This following code is required to make sure that interstitial ads and banner canvases are displayed
-    		properly in GL/Unity games. This is due to the GL UIViewController being oriented in a different 
-    		orientation than the actual game content. Two UIViewControllers (one to display ads on the screen
-    		and another to present ads modally) are required due to orientation weirdness when presenting another
-    		UIViewController modally from the UIViewController (this happens on banner canvas presentation). The
-    		UIViewController is rotated when the modal UIVIewController is presented, and is then cut off. Having
-    		two UIViewControllers fixes this, although it does add additional processing overhead in passing through
-    		touches.
-    		
-    		NOTE: Using UnityGetGLViewController() will display ads correctly but will have modally-presented
-    			  UIViewControllers _NOT_ oriented correctly.
-    	 */
-    	
+
+        /*
+             This following code is required to make sure that interstitial ads and banner canvases are displayed
+             properly in GL/Unity games. This is due to the GL UIViewController being oriented in a different
+             orientation than the actual game content. Two UIViewControllers (one to display ads on the screen
+             and another to present ads modally) are required due to orientation weirdness when presenting another
+             UIViewController modally from the UIViewController (this happens on banner canvas presentation). The
+             UIViewController is rotated when the modal UIVIewController is presented, and is then cut off. Having
+             two UIViewControllers fixes this, although it does add additional processing overhead in passing through
+             touches.
+         
+             This logic supports: const char* UnityIPhoneRuntimeVersion = "4.3.0f4";
+         */
+        
+        UnityAppController *appController = GetAppController();
+        
         _rootViewController = [[BurstlyAdViewViewController alloc] init];
-        [[[UIApplication sharedApplication] keyWindow].rootViewController addChildViewController:_rootViewController];
-        [[[UIApplication sharedApplication] keyWindow].rootViewController.view addSubview:_rootViewController.view];
-
-        _viewControllerForModalPresentation = [[UIViewController alloc] init];
-        _viewControllerForModalPresentation.view = [[BurstlyAdViewView alloc] initWithFrame:_rootViewController.view.frame];
-        [[[UIApplication sharedApplication] keyWindow] addSubview:_viewControllerForModalPresentation.view];
-
+        [appController.rootViewController addChildViewController:_rootViewController];
+        [appController.rootViewController.view addSubview:_rootViewController.view];
+        
+        _viewControllerForModalPresentation = appController.rootViewController;
+        
         _placementDictionary = [[NSMutableDictionary alloc] init];
         
         [self setLoggingEnabled:YES];
@@ -174,6 +172,7 @@ static BurstlyAdWrapperBridge *_sharedInstance;
     } else {
         NSLog(@"Incorrect placement type for value. Expected type: BurstlyBanner");
     }
+    
 }
 
 - (void)removeBannerFromViewForPlacement:(NSString *)placement{
@@ -237,7 +236,7 @@ static BurstlyAdWrapperBridge *_sharedInstance;
             ((BurstlyBanner *)adPlacement).adRequest.adParameters = adParameters;
     } else {
         NSLog(@"Placement does not exist.");
-    }	
+    }
 }
 
 - (void)setLoggingEnabled:(BOOL)enabled {
